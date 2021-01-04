@@ -2,22 +2,33 @@
 <html lang="fr">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="style.css">
     <title>Map Generator</title>
 </head>
 
 <body>
 
 <div id="drawing-container">
-    <canvas id="drawing-area" width="1500" height="1500"></canvas>
+    <canvas id="drawing-area" width="1500" height="600"></canvas>
 </div>
 
 <div id="config-panel">
-    <input id="generate" type="button" value="Generer"/>
+    <fieldset>
+        <legend>
+           Paramètres d'affichage
+        </legend>
+        <input id="generate" type="button" value="Generer"/>
+        <input id="row" type="number" name="row" minlength="1" maxlength="8" size="8" min=1 value="40">
+        <input id="columns" type="number" name="columns"  minlength="1" maxlength="8" size="8" min=1 value="10">
+        <input id="zoom" type="range" min="1" max="3" step="0.1"/>
+    </fieldset>
+
 </div>
 
 </body>
 <script src="scripts/view.js"></script>
 <script src="scripts/controller.js"></script>
-<script src="scripts/model.js"></script>
+<script src="scripts/model/class.js"></script>
+<script src="scripts/model/TileMap.js"></script>
 
 </html>
