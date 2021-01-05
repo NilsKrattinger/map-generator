@@ -22,6 +22,7 @@ const Controller = {
     },
 
    async generate() {
+        let res1 = await  TileMap.generatePerlinNoiseMap();
        let res = await TileMap.generateNoAlgoMap()
        View.printTile(res);
     },

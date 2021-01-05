@@ -45,14 +45,13 @@ const View = {
             .then(() => {
                 CnvCtx.clearRect(0, 0, CnvCtx.canvas.width, CnvCtx.canvas.height);
 
-                for (let j = 0; j < tileMap.nbRows; j++) {
-                    for (let i = 0; i < tileMap.nbColumns; i++) {
-                        let x = i * 48;
-                        if (j % 2 == 0) {
-                            x += 24;
+                for (let y = 0; y < tileMap.nbRows; y++) { // old J
+                    for (let x = 0; x < tileMap.nbColumns; x++) { // old i
+                        let posx = x * 48;
+                        if (y % 2 == 0) {
+                            posx += 24;
                         }
-
-                        CnvCtx.drawImage(HEXTILES_IMAGE,tileMap.tileCo[i + i*j].x , tileMap.tileCo[i + i*j].y, 32, 52, x, 14 * j, 32, 52);
+                        CnvCtx.drawImage(HEXTILES_IMAGE,tileMap.tile[y][x].x , tileMap.tile[y][x].y, 32, 52, posx, 14 * y, 32, 52);
                     }
                 }
             });
