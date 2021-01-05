@@ -6,29 +6,33 @@ const View = {
     columnField: undefined,
     generateButton: undefined,
     canvasZoomSlider: undefined,
+    simplexFrequency: undefined,
 
     // ** Listener
 
-    onUpdateGenerate(){
-        Controller.generate().catch(r => alert("Erreur lors de l'execution" + r));
+    onUpdateGenerate() {
+        MainController.generate().catch(r => alert("Erreur lors de l'execution" + r));
 
     },
 
-    onUpdateRowNumber(){
-        Controller.changeNbRow(this.rowField.value);
+    onUpdateRowNumber() {
+        MainController.changeNbRow(this.rowField.value);
 
     },
 
-    onUpdateColumnsNumber(){
-        Controller.changeNbColumn(this.columnField.value);
+    onUpdateColumnsNumber() {
+        MainController.changeNbColumn(this.columnField.value);
 
     },
 
-    onUpdateZoomSlider(){
+    onUpdateZoomSlider() {
         console.log(this)
 
     },
 
+    onFrequrncyUpdate() {
+        MainController.changeSimplexFrequency(this.simplexFrequency.value);
+    },
 
 
     // ** Render methods
@@ -52,26 +56,29 @@ const View = {
                         if (y % 2 == 0) {
                             posx += 24;
                         }
-                        CnvCtx.drawImage(HEXTILES_IMAGE,tileMap.tile[y][x].x , tileMap.tile[y][x].y, 32, 52, posx, 14 * y, 32, 52);
+                        CnvCtx.drawImage(HEXTILES_IMAGE, tileMap.data.tile[y][x].x, tileMap.tile[y][x].y, 32, 52, posx, 14 * y, 32, 52);
                     }
                 }
             });
     }
 
 }
-    // ** Init
+// ** Init
 document.addEventListener('DOMContentLoaded', () => {
 
     View.canvasContainer = document.getElementById('drawing-container');
     View.canvasElement = document.getElementById("drawing-area");
     View.columnField = document.getElementById('columns');
     View.rowField = document.getElementById('row');
+    View.simplexFrequency = document.getElementById('frequency');
 
 
-    document.getElementById('generate').addEventListener('click',View.onUpdateGenerate.bind(View));
-    document.getElementById('row').addEventListener('change',View.onUpdateRowNumber.bind(View));
-    document.getElementById('columns').addEventListener('change',View.onUpdateColumnsNumber.bind(View));
-    document.getElementById('zoom').addEventListener('input',View.onUpdateZoomSlider.bind(View));
-    Controller.init(View.rowField.value,View.columnField.value);
+    document.getElementById('generate').addEventListener('click', View.onUpdateGenerate.bind(View));
+    document.getElementById('row').addEventListener('change', View.onUpdateRowNumber.bind(View));
+    document.getElementById('columns').addEventListener('change', View.onUpdateColumnsNumber.bind(View));
+    document.getElementById('zoom').addEventListener('input', View.onUpdateZoomSlider.bind(View));
+    document.getElementById('frequency').addEventListener('change', View.onFrequrncyUpdate.bind(View));
+
+    MainController.init(View.rowField.value, View.columnField.value);
 
 });
