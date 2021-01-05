@@ -2,12 +2,13 @@ const Controller = {
 
     changeNbRow(nbRow) {
         TileMap.changeNbRow(nbRow);
-        this.generate();
+        this.generate().catch(r => alert("Erreur : " + r) );
 
     },
+
     changeNbColumn(nbColumn) {
         TileMap.changeNbColumn(nbColumn);
-        this.generate();
+        this.generate().catch(r => alert("Erreur : " + r) );
 
 
     },
@@ -15,16 +16,16 @@ const Controller = {
     init(row, columns) {
         TileMap.changeNbRow(row);
         TileMap.changeNbColumn(columns);
-        this.generate();
+        this.generate().catch(r => alert("Erreur : " + r) );
     },
 
     canvasZoom(scale) {
     },
 
-   async generate() {
-        let res1 = await  TileMap.generatePerlinNoiseMap();
-       let res = await TileMap.generateNoAlgoMap()
-       View.printTile(res);
+    async generate() {
+        let res1 = await TileMap.generatePerlinNoiseMap();
+        let res = await TileMap.generateNoAlgoMap();
+        View.printTile(res);
     },
 
 };

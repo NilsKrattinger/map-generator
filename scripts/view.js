@@ -10,6 +10,7 @@ const View = {
     // ** Listener
 
     onUpdateGenerate(){
+        Controller.generate().catch(r => alert("Erreur lors de l'execution" + r));
 
     },
 
