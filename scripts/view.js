@@ -56,7 +56,7 @@ const View = {
                         if (y % 2 == 0) {
                             posx += 24;
                         }
-                        CnvCtx.drawImage(HEXTILES_IMAGE, tileMap.data.tile[y][x].x, tileMap.tile[y][x].y, 32, 52, posx, 14 * y, 32, 52);
+                        CnvCtx.drawImage(HEXTILES_IMAGE, tileMap.tile[y][x].coordImg.x, tileMap.tile[y][x].coordImg.y, 32, 52, posx, 14 * y, 32, 52);
                     }
                 }
             });

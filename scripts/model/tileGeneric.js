@@ -1,13 +1,13 @@
-const TileGeneric = {
 
-    coordImg: undefined,
-    biome: undefined,
-    altitude: undefined,
-    humidity: undefined,
 
-    //no setters or getters necessary for the moment
+class TitleGeneric{
+    constructor() {
+        this.coordImg = undefined;
+        this.biome = undefined;
+        this.altitude = undefined;
+        this.humidity = undefined;
+    }
 
-    //possibility to implement later coordinates for 
-    //the different positions of the tile on the map
+
 
 }
