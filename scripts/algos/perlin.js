@@ -1,16 +1,17 @@
 /*
 
-* A speed-improved perlin and simplex noise algorithms for 2D.
+* A speed-improved simplex noise algorithms for 2D.
 *
 * Based on example code by Stefan Gustavson (stegu@itn.liu.se).
 * Optimisations by Peter Eastman (peastman@drizzle.stanford.edu).
 * Better rank ordering method by Stefan Gustavson in 2012.
 * Converted to Javascript by Joseph Gentle.
+* Rewrited for my personal usage.
 *
-* Version 2012-03-09
+* Version 2021-01-05
 *
-* This code was placed in the public domain by its original author,
-* Stefan Gustavson. You may use it as you see fit, but
+* This code was placed in the public domain by its original author.
+* You may use it as you see fit, but
 * attribution is appreciated.
 *
 */
@@ -47,11 +48,9 @@
     let perm = new Array(512);
     let gradP = new Array(512);
 
-    // This isn't a very good seeding function, but it works ok. It supports 2^16
-    // different seed values. Write something better if you need more seeds.
+    // It supports  only 2^16 different seed values.
     module.seed = function(seed) {
         if(seed > 0 && seed < 1) {
-            // Scale the seed out
             seed *= 65536;
         }
 
@@ -75,18 +74,12 @@
 
     module.seed(0);
 
-    /*
-    for(let i=0; i<256; i++) {
-      perm[i] = perm[i + 256] = p[i];
-      gradP[i] = gradP[i + 256] = grad3[perm[i] % 12];
-    }*/
 
     // Skewing and unskewing factors for 2, 3, and 4 dimensions
     let F2 = 0.5*(Math.sqrt(3)-1);
     let G2 = (3-Math.sqrt(3))/6;
 
-    // 2D simplex noise
-    module.simplex2 = function(xin, yin) {
+    module.simplex = function(xin, yin) {
         let n0, n1, n2; // Noise contributions from the three corners
         // Skew the input space to determine which simplex cell we're in
         let s = (xin+yin)*F2; // Hairy factor for 2D

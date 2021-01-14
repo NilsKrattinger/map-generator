@@ -6,8 +6,7 @@ const View = {
     columnField: undefined,
     generateButton: undefined,
     canvasZoomSlider: undefined,
-
-    // ** Listener
+    frequencySlider : undefined,
 
     onUpdateGenerate(){
         Controller.generate().catch(r => alert("Erreur lors de l'execution" + r));
@@ -24,12 +23,14 @@ const View = {
 
     },
 
+    onUpdateFrequency() {
+        Controller.changeFrequency(this.frequencySlider.value);
+    },
+
     onUpdateZoomSlider(){
         console.log(this)
 
     },
-
-
 
     // ** Render methods
     printTile(tileMap) {
@@ -48,11 +49,11 @@ const View = {
 
                 for (let y = 0; y < tileMap.nbRows; y++) { // old J
                     for (let x = 0; x < tileMap.nbColumns; x++) { // old i
-                        let posx = x * 48;
+                        let posx = x * 47;
                         if (y % 2 == 0) {
                             posx += 24;
                         }
-                        CnvCtx.drawImage(HEXTILES_IMAGE,tileMap.tile[y][x].x , tileMap.tile[y][x].y, 32, 52, posx, 14 * y, 32, 52);
+                        CnvCtx.drawImage(HEXTILES_IMAGE,tileMap.result.tile[y][x].x , tileMap.result.tile[y][x].y, 32, 47, posx, 14 * y, 32, 47);
                     }
                 }
             });
@@ -66,12 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
     View.canvasElement = document.getElementById("drawing-area");
     View.columnField = document.getElementById('columns');
     View.rowField = document.getElementById('row');
+    View.frequencySlider = document.getElementById('frequency');
 
 
     document.getElementById('generate').addEventListener('click',View.onUpdateGenerate.bind(View));
     document.getElementById('row').addEventListener('change',View.onUpdateRowNumber.bind(View));
     document.getElementById('columns').addEventListener('change',View.onUpdateColumnsNumber.bind(View));
     document.getElementById('zoom').addEventListener('input',View.onUpdateZoomSlider.bind(View));
-    Controller.init(View.rowField.value,View.columnField.value);
-
+    document.getElementById('frequency').addEventListener("input", View.onUpdateFrequency.bind(View));
+    Controller.init(View.rowField.value,View.columnField.value,View.frequencySlider.value);
 });
