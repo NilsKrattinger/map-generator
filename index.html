@@ -22,14 +22,24 @@
         <input id="columns" type="number" name="columns"  minlength="1" maxlength="8" size="8" min=1 value="10">
         <input id="zoom" type="range" min="1" max="3" step="0.1"/>
     </fieldset>
+    <fieldset>
+        <legend>Simplex Control</legend>
+        <label>Frequency :</label>
+        <input id="frequency" type="range" name="row" min=1 value="2" max="8">
+    </fieldset>
 
 </div>
 
 </body>
 <script src="scripts/view.js"></script>
-<script src="scripts/controller.js"></script>
+<script src="scripts/Controller/Controller.js"></script>
 <script src="scripts/model/class.js"></script>
-<script src="scripts/model/TileMap.js"></script>
+<script src="scripts/model/tileMap.js"></script>
 <script src="scripts/algos/perlin.js"></script>
+<script src="scripts/model/tileGeneric.js"></script>
+<script src="scripts/model/MapDescriptor.js"></script>
+<script src="scripts/Controller/MapDescriptorContorller.js"></script>
+
+
 
 </html>
