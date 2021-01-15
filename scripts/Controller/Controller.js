@@ -19,10 +19,10 @@ const Controller = {
     },
 
     init(row, columns,frequency) {
+
         MapDescriptor.changeNbRow(row);
         MapDescriptor.changeNbColumn(columns);
         MapDescriptor.changeFrequency(frequency);
-        noise.seed(Math.random());
 
         this.generate().catch(r => alert("Erreur : " + r) );
     },
@@ -32,6 +32,7 @@ const Controller = {
 
     async generate() {
         let mapDescriptor = await MapDescriptorController.generate();
+
         console.log(mapDescriptor)
         View.printTile(mapDescriptor);
     },

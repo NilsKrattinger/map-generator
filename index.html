@@ -9,17 +9,17 @@
 <body>
 
 <div id="drawing-container">
-    <canvas id="drawing-area" width="1500" height="600"></canvas>
+    <canvas id="drawing-area" width="2000" height="2000"></canvas>
 </div>
 
 <div id="config-panel">
     <fieldset>
         <legend>
-           Paramètres d'affichage
+            Paramètres d'affichage
         </legend>
         <input id="generate" type="button" value="Generer"/>
-        <input id="row" type="number" name="row" minlength="1" maxlength="8" size="8" min=1 value="40">
-        <input id="columns" type="number" name="columns"  minlength="1" maxlength="8" size="8" min=1 value="10">
+        <input id="row" type="number" name="row" minlength="1" maxlength="8" size="8" min=1 value="50">
+        <input id="columns" type="number" name="columns" minlength="1" maxlength="8" size="8" min=1 value="30">
         <input id="zoom" type="range" min="1" max="3" step="0.1"/>
     </fieldset>
     <fieldset>
@@ -39,7 +39,9 @@
 <script src="scripts/model/tileGeneric.js"></script>
 <script src="scripts/model/MapDescriptor.js"></script>
 <script src="scripts/Controller/MapDescriptorContorller.js"></script>
+<script src="scripts/utils.js"></script>
 
+<script src="scripts/model/liste_tuile.js"></script>
 
 
 </html>

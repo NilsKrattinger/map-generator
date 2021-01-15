@@ -21,10 +21,13 @@ const MapDescriptor = {
         this.result.tile = new Array();
         this.result.heat = new Array();
         this.result.moisture = new Array();
+        this.result.elevation = new Array();
+
         for (let i = 0; i < this.nbRows; i++) {
             this.result.tile[i] = new Array();
             this.result.heat[i] = new Array();
             this.result.moisture[i] = new Array();
+            this.result.elevation[i] = new Array();
         }
     },
 
