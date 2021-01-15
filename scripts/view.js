@@ -49,11 +49,11 @@ const View = {
 
                 for (let y = 0; y < tileMap.nbRows; y++) { // old J
                     for (let x = 0; x < tileMap.nbColumns; x++) { // old i
-                        let posx = x * 48;
+                        let posx = x * 47;
                         if (y % 2 == 0) {
                             posx += 24;
                         }
-                        CnvCtx.drawImage(HEXTILES_IMAGE,utils.getPointOnImage(tileMap.result.tile[y][x]).x , utils.getPointOnImage(tileMap.result.tile[y][x]).y, 32, 48, posx, 14 * y, 32, 48);
+                        CnvCtx.drawImage(HEXTILES_IMAGE,tileMap.result.tile[y][x].x , tileMap.result.tile[y][x].y, 32, 47, posx, 14 * y, 32, 47);
                     }
                 }
             });
