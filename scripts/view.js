@@ -54,6 +54,13 @@ const View = {
                             posx += 24;
                         }
                         CnvCtx.drawImage(HEXTILES_IMAGE,tileMap.result.tile[y][x].x , tileMap.result.tile[y][x].y, 32, 47, posx, 14 * y, 32, 47);
+                        // if(x % 2){
+                        //     CnvCtx.fillStyle = "red";
+                        // } else {
+                        //     CnvCtx.fillStyle = "black";
+                        // }
+
+                        // CnvCtx.fillText(x + " , " + y, posx, 14*y + 30);
                     }
                 }
             });
