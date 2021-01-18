@@ -5,19 +5,11 @@ const MapDescriptorController = {
         await this.generateElevation(MapDescriptor);
         await this.generateTemperature(MapDescriptor);
         await this.generateMoisture(MapDescriptor);
-        await this.generateNoAlgoMap(MapDescriptor);
-        await this.SetTileList(MapDescriptor)
+        await this.generateBiomAlgo1(MapDescriptor);
+        await this.SetTileList(MapDescriptor);
+        await this.tilefinder(MapDescriptor);
         console.log(MapDescriptor.result)
-        console.log(plaine_normal[2])
         return MapDescriptor;
-    },
-
-    async generateNoAlgoMap(data) {
-        for (let y = 0; y < data.nbRows; y++) {
-            for (let x = 0; x < data.nbColumns; x++) {
-                data.result.tile[y][x] = new Point(3, 6);
-            }
-        }
     },
 
     async generateElevation(data) {
@@ -25,26 +17,23 @@ const MapDescriptorController = {
         for (let y = 0; y < data.nbColumns; y++) {
             for (let x = 0; x < data.nbRows; x++) {
 
-                let nx = x / 10;
-                let ny = y / 10;
-                //map the -1 1 range to 0 : 2 + range 0 to 2
+                let nx = y ;
+                let ny = x ;
                 data.result.elevation[x][y] = ((noise.simplex(data.frequency * nx, MapDescriptor.frequency * ny) + 1)) + ((noise.simplex(data.frequency * 2 * nx, data.frequency * 2 * ny) + 1));
-                //console.log(x + " : " + y);
-                //console.log(data.result.tile[x][y])
             }
         }
     },
 
     async generateTemperature(data) {
         for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+            for (let x = 0; x < data.nbRows ; x++) {
                 // All noise functions return values in the range of -1 to 1.
 
                 // noise.simplex for 2d noise
                 let nx = x / 60;
                 let ny = y / 60;
 
-                data.result.heat[x][y] = ((noise.simplex(0.5 * nx, 0.5 * ny) + 1) * 3);
+                data.result.heat[x][y] = ((noise.simplex(0.4 * nx , 0.4 * ny ) + 1) * 3);
                 //console.log(data.result.heat[x][y])
             }
         }
@@ -55,13 +44,31 @@ const MapDescriptorController = {
             for (let x = 0; x < data.nbRows; x++) {
                 // All noise functions return values in the range of -1 to 1.
 
-                // noise.simplex for 2d noise
-                let nx = x / 4;
-                let ny = y / 4;
-
-                data.result.moisture[x][y] = ((noise.simplex(0.2 * nx, 0.2 * ny) + 1) * 2);
+                //biom size
+                let nx = x / 5;
+                let ny = y / 5;
+                data.result.moisture[x][y] = ((noise.simplex(0.2 * nx, 0.2 * ny ) + 1) * 2);
             }
         }
+    },
+
+    async generateBiomAlgo1(data) {
+        for (let y = 0; y < data.nbColumns; y++) {
+            for (let x = 0; x < data.nbRows; x++) {
+                //biom
+                data.result.biome[x][y] = await this.biomeFinder(data.result.heat[x][y], data.result.moisture[x][y]);
+            }
+        }
+
+    },
+
+    async tilefinder(data) {
+        for (let y = 0; y < data.nbColumns; y++) {
+            for (let x = 0; x < data.nbRows; x++) {
+                data.result.tile[x][y] = await this.findTile(data.result.biome[x][y], data.result.elevation[x][y]);
+            }
+        }
+
     },
 
     async biomeFinder(temp, moisture) {
@@ -73,13 +80,13 @@ const MapDescriptorController = {
                         biom = BiomEnum.Desert;
                         break;
                     case moisture >= 1 && moisture < 2:
-                        biom = BiomEnum.Desert;
+                        biom = BiomEnum.Savanne;
                         break;
                     case moisture >= 2 && moisture < 3:
-                        biom = BiomEnum.Jungle;
+                        biom = BiomEnum.Sea;
                         break;
                     case moisture >= 3 && moisture < 4:
-                        biom = BiomEnum.Jungle;
+                        biom = BiomEnum.Sea;
                         break;
                 }
                 break;
@@ -89,13 +96,13 @@ const MapDescriptorController = {
                         biom = BiomEnum.Desert;
                         break;
                     case moisture >= 1 && moisture < 2:
-                        biom = BiomEnum.Savanne;
+                        biom = BiomEnum.Plaine;
                         break;
                     case moisture >= 2 && moisture < 3:
-                        biom = BiomEnum.Jungle;
+                        biom = BiomEnum.Sea;
                         break;
                     case moisture >= 3 && moisture < 4:
-                        biom = BiomEnum.Jungle;
+                        biom = BiomEnum.Sea;
                         break;
                 }
                 break;
@@ -105,7 +112,7 @@ const MapDescriptorController = {
                         biom = BiomEnum.Desert;
                         break;
                     case moisture >= 1 && moisture < 2:
-                        biom = BiomEnum.Savanne;
+                        biom = BiomEnum.Plaine;
                         break;
                     case moisture >= 2 && moisture < 3:
                         biom = BiomEnum.Plaine;
@@ -134,7 +141,7 @@ const MapDescriptorController = {
             case temp >= 4 && temp < 5 :
                 switch (true) {
                     case moisture >= 0 && moisture < 1:
-                        biom = BiomEnum.Savanne;
+                        biom = BiomEnum.Plaine;
                         break;
                     case moisture >= 1 && moisture < 2:
                         biom = BiomEnum.Plaine;
@@ -167,12 +174,9 @@ const MapDescriptorController = {
         return biom;
     },
 
-    async findTile(heat, moisture, altitude) {
+    async findTile(biome, altitude) {
 
         let tile;
-        console.log(heat, moisture, altitude);
-        let biome = await this.biomeFinder(heat, moisture);
-        console.log(biome)
         switch (biome) {
             case BiomEnum.Desert :
                 switch (true) {
@@ -188,7 +192,7 @@ const MapDescriptorController = {
                         break;
                 }
                 break
-            case BiomEnum.Jungle :
+            case BiomEnum.Sea :
                 switch (true) {
                     case altitude >= 2 :
                         tile = jungle_normal[utils.getRandomInt(jungle_normal.length)];
@@ -246,7 +250,6 @@ const MapDescriptorController = {
                 }
                 break;
         }
-        console.log(tile);
         return tile;
     },
 

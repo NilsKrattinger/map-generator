@@ -4,4 +4,4 @@ function Point(x,y){
     return this;
 }
 
-const BiomEnum = Object.freeze({"Snow":1, "Plaine":2, "Savanne":3, "Desert" : 4,"Jungle":5});
+const BiomEnum = Object.freeze({"Snow":1, "Plaine":2, "Savanne":3, "Desert" : 4,"Sea":5});

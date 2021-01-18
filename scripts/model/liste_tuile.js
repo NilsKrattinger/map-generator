@@ -7,7 +7,10 @@ const jungle_normal = [new Point(2, 1), new Point(2, 2), new Point(2, 3), new Po
 const jungle_colline = [new Point(2, 5), new Point(2, 11)]
 const jungle_montagne = [new Point(2, 6), new Point(2, 7), new Point(2, 8)]
 
-const savane_normal = [new Point(3, 1), new Point(3, 2), new Point(3, 3), new Point(3, 4), new Point(3, 5), new Point(3, 11), new Point(3, 12)]
+const sea_normal = [new Point(6,1)];
+
+
+const savane_normal = [new Point(3, 1), new Point(3, 2), new Point(3, 3), new Point(3, 4), new Point(3, 5), new Point(3, 11)]
 const savane_colline = [new Point(3, 6), new Point(3, 7), new Point(3, 8)]
 const savane_montagne = [new Point(3, 9), new Point(3, 10)]
 

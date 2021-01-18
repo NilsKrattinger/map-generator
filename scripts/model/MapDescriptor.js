@@ -19,6 +19,7 @@ const MapDescriptor = {
         this.result.nbRows = this.nbRows;
         this.result.nbColumns = this.nbColumns;
         this.result.tile = new Array();
+        this.result.biome = new Array();
         this.result.heat = new Array();
         this.result.moisture = new Array();
         this.result.elevation = new Array();
@@ -28,6 +29,8 @@ const MapDescriptor = {
             this.result.heat[i] = new Array();
             this.result.moisture[i] = new Array();
             this.result.elevation[i] = new Array();
+            this.result.biome[i] = new Array();
+
         }
     },
 
