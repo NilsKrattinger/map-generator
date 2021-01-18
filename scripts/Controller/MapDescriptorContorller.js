@@ -1,15 +1,22 @@
 const MapDescriptorController = {
     async generate() {
-        noise.seed(Math.random());
+        noise.seed(1003);
         await MapDescriptor.init();
         await this.generateElevation(MapDescriptor);
         await this.generateTemperature(MapDescriptor);
         await this.generateMoisture(MapDescriptor);
+        console.log(MapDescriptor.result.heat)
+        await this.smoother(MapDescriptor.result.heat, MapDescriptor,2);
+        await this.smoother(MapDescriptor.result.elevation, MapDescriptor,0);
+        await this.smoother(MapDescriptor.result.moisture, MapDescriptor,2);
+
+
+        console.log(MapDescriptor.result.heat)
+
         await this.generateBiomAlgo1(MapDescriptor);
         await this.SetTileList(MapDescriptor);
         await this.tilefinder(MapDescriptor);
-        console.log(MapDescriptor.result)
-        console.log(plaine_normal[2])
+        console.log(utils.neighbour(new Point(0, 0), MapDescriptor.nbRows, MapDescriptor.nbColumns));
         return MapDescriptor;
     },
 
@@ -17,37 +24,33 @@ const MapDescriptorController = {
         for (let y = 0; y < data.nbColumns; y++) {
             for (let x = 0; x < data.nbRows; x++) {
 
-                let nx = y ;
-                let ny = x ;
-                data.result.elevation[x][y] = ((noise.simplex(data.frequency * nx, MapDescriptor.frequency * ny) + 1)) + ((noise.simplex(data.frequency * 2 * nx, data.frequency * 2 * ny) + 1));
+                let nx = y;
+                let ny = x;
+                data.result.elevation[x][y] = ((noise.simplex(data.frequency * nx, MapDescriptor.frequency * ny) + 1) * 2);
             }
         }
     },
 
     async generateTemperature(data) {
         for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows ; x++) {
-                // All noise functions return values in the range of -1 to 1.
+            for (let x = 0; x < data.nbRows; x++) {
 
-                // noise.simplex for 2d noise
                 let nx = x / 60;
                 let ny = y / 60;
 
-                data.result.heat[x][y] = ((noise.simplex(0.4 * nx , 0.4 * ny ) + 1) * 3);
-                //console.log(data.result.heat[x][y])
+                data.result.heat[x][y] = ((noise.simplex(0.4 * nx, 0.4 * ny) + 1) * 3);
             }
         }
+        console.log(data.result);
     },
 
     async generateMoisture(data) {
         for (let y = 0; y < data.nbColumns; y++) {
             for (let x = 0; x < data.nbRows; x++) {
-                // All noise functions return values in the range of -1 to 1.
-
-                //biom size
                 let nx = x / 5;
                 let ny = y / 5;
-                data.result.moisture[x][y] = ((noise.simplex(0.2 * nx, 0.2 * ny ) + 1) * 2);
+
+                data.result.moisture[x][y] = ((noise.simplex(0.2 * nx, 0.2 * ny) + 1) * 2);
             }
         }
     },
@@ -69,6 +72,20 @@ const MapDescriptorController = {
             }
         }
 
+    },
+
+    async smoother(layer, data, occ) {
+        for (let i = 0; i < occ; i++) {
+            for (let y = 0; y < data.nbColumns; y++) {
+                for (let x = 0; x < data.nbRows; x++) {
+
+                    let neighbour = utils.neighbour(new Point(x, y), data.nbRows, data.nbColumns);
+
+                    layer[x][y] = await utils.avgArray(neighbour, layer);
+
+                }
+            }
+        }
     },
 
     async biomeFinder(temp, moisture) {
@@ -193,17 +210,6 @@ const MapDescriptorController = {
                 }
                 break
             case BiomEnum.Sea :
-                switch (true) {
-                    case altitude >= 2 :
-                        tile = jungle_normal[utils.getRandomInt(jungle_normal.length)];
-                        break;
-                    case altitude >= 1 && altitude < 2 :
-                        tile = jungle_colline[utils.getRandomInt(jungle_colline.length)];
-                        break;
-                    case altitude >= 0 && altitude < 1 :
-                        tile = jungle_montagne[utils.getRandomInt(jungle_montagne.length)];
-                        break;
-                }
                 tile = new Point(6, 1)
                 break
             case BiomEnum.Savanne :
@@ -261,6 +267,11 @@ const MapDescriptorController = {
 
             }
         }
+    },
+
+    async tilePicker(data) {
+
+
     }
 
 }

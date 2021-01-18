@@ -47,8 +47,8 @@ const View = {
             .then(() => {
                 CnvCtx.clearRect(0, 0, CnvCtx.canvas.width, CnvCtx.canvas.height);
                 CnvCtx.scale(0.5, 0.5);
-                for (let y = 0; y < tileMap.nbRows; y++) { // old J
-                    for (let x = 0; x < tileMap.nbColumns; x++) { // old i
+                for (let y = 0; y < tileMap.nbRows; y++) {
+                    for (let x = 0; x < tileMap.nbColumns; x++) {
                         let posx = x * 48;
                         if (y % 2 == 0) {
                             posx += 24;
