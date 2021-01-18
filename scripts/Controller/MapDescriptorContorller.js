@@ -9,11 +9,11 @@ const MapDescriptorController = {
         await this.SetTileList(MapDescriptor);
         await this.tilefinder(MapDescriptor);
         console.log(MapDescriptor.result)
+        console.log(plaine_normal[2])
         return MapDescriptor;
     },
 
     async generateElevation(data) {
-        console.log(data);
         for (let y = 0; y < data.nbColumns; y++) {
             for (let x = 0; x < data.nbRows; x++) {
 
