@@ -23,6 +23,7 @@ const MapDescriptor = {
         this.result.heat = new Array();
         this.result.moisture = new Array();
         this.result.elevation = new Array();
+        this.result.towns = new Array();
 
         for (let i = 0; i < this.nbRows; i++) {
             this.result.tile[i] = new Array();
@@ -30,6 +31,7 @@ const MapDescriptor = {
             this.result.moisture[i] = new Array();
             this.result.elevation[i] = new Array();
             this.result.biome[i] = new Array();
+
 
         }
     },

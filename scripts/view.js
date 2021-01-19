@@ -56,6 +56,7 @@ const View = {
                         CnvCtx.drawImage(HEXTILES_IMAGE, utils.getPointOnImage(tileMap.result.tile[y][x]).x, utils.getPointOnImage(tileMap.result.tile[y][x]).y, 32, 48, posx, 14 * y, 32, 48);
                     }
                 }
+
                 CnvCtx.scale(2, 2);
             });
     }

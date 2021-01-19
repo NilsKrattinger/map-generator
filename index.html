@@ -25,7 +25,28 @@
     <fieldset>
         <legend>Simplex Control</legend>
         <label>Frequency :</label>
-        <input id="frequency" type="range" name="row" min=0 value="2" max="8" step="0.5">
+        <input id="frequency" type="range" name="freq" min=0 value="2" max="8" step="0.5">
+    </fieldset>
+    <fieldset>
+        <legend>île</legend>
+        <label>Ile : </label>
+        <input id="ile" type="checkbox" value="false"/>
+        <input id="ileRadius" type="number" name="row" max="100" size="4" min=1 value="20">
+        <label>Distance du continant </label>
+        <input id="distFromCont" type="range" name="distFromCont" min=0 value="30" max="100" step="2">
+        <label>Litorale : </label>
+        <input id="lito" type="checkbox" value="false"/>
+    </fieldset>
+    <fieldset>
+        <legend>Villes</legend>
+        <label>Villes : </label>
+        <input id="villes" type="checkbox" value="false"/>
+
+    </fieldset>
+
+    <fieldset>
+        <legend>Algo</legend>
+
     </fieldset>
 
 </div>
