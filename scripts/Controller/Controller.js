@@ -31,6 +31,7 @@ const Controller = {
     },
 
     async generate() {
+
         let mapDescriptor = await MapDescriptorController.generate();
         console.log(mapDescriptor)
         View.printTile(mapDescriptor);
