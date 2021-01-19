@@ -2,35 +2,42 @@ const View = {
 // ** Refs
     canvasContainer: undefined,
     canvasElement: undefined,
+
     rowField: undefined,
     columnField: undefined,
+
     generateButton: undefined,
+
     canvasZoomSlider: undefined,
-    frequencySlider: undefined,
+
+    elevationFrequencySlider: undefined,
+
+    ileCheckBox : undefined,
+    ileSize : undefined,
+    ileLitCheckBox : undefined,
+
+    townCheckBox : undefined,
+
+
 
     onUpdateGenerate() {
         Controller.generate().catch(r => alert("Erreur lors de l'execution" + r));
 
     },
 
-    onUpdateRowNumber() {
+    onUpdateParam() {
         Controller.changeNbRow(this.rowField.value);
-
-    },
-
-    onUpdateColumnsNumber() {
         Controller.changeNbColumn(this.columnField.value);
+        Controller.changeFrequency(this.elevationFrequencySlider.value);
+        Controller.changeIle(this.ileCheckBox.checked);
+        Controller.changeIleSize(this.ileSize.value);
+        Controller.changeTowns(this.townCheckBox.checked);
+        Controller.changeIleLito(this.ileLitCheckBox.checked);
+        Controller.generate().catch(r => alert("Erreur lors de l'execution" + r));
 
     },
 
-    onUpdateFrequency() {
-        Controller.changeFrequency(this.frequencySlider.value);
-    },
 
-    onUpdateZoomSlider() {
-        console.log(this)
-
-    },
 
     // ** Render methods
     printTile(tileMap) {
@@ -69,13 +76,24 @@ document.addEventListener('DOMContentLoaded', () => {
     View.canvasElement = document.getElementById("drawing-area");
     View.columnField = document.getElementById('columns');
     View.rowField = document.getElementById('row');
-    View.frequencySlider = document.getElementById('frequency');
+    View.elevationFrequencySlider = document.getElementById('frequency');
+    View.ileCheckBox = document.getElementById('ileCheckBox');
+    View.ileSize = document.getElementById('ileSize');
+    View.ileLitCheckBox = document.getElementById('lito');
+    View.townCheckBox = document.getElementById('villes');
 
 
     document.getElementById('generate').addEventListener('click', View.onUpdateGenerate.bind(View));
-    document.getElementById('row').addEventListener('change', View.onUpdateRowNumber.bind(View));
-    document.getElementById('columns').addEventListener('change', View.onUpdateColumnsNumber.bind(View));
-    document.getElementById('zoom').addEventListener('input', View.onUpdateZoomSlider.bind(View));
-    document.getElementById('frequency').addEventListener("input", View.onUpdateFrequency.bind(View));
-    Controller.init(View.rowField.value, View.columnField.value, View.frequencySlider.value);
+    document.getElementById('row').addEventListener('change', View.onUpdateParam.bind(View));
+    document.getElementById('columns').addEventListener('change', View.onUpdateParam.bind(View));
+    document.getElementById('zoom').addEventListener('input', View.onUpdateParam.bind(View));
+    document.getElementById('frequency').addEventListener("input", View.onUpdateParam.bind(View));
+    document.getElementById('ileCheckBox').addEventListener('change', View.onUpdateParam.bind(View));
+    document.getElementById('ileSize').addEventListener('change', View.onUpdateParam.bind(View));
+    document.getElementById('lito').addEventListener('change', View.onUpdateParam.bind(View));
+    document.getElementById('villes').addEventListener('change', View.onUpdateParam.bind(View));
+
+
+
+    Controller.init(View.rowField.value, View.columnField.value, View.elevationFrequencySlider.value);
 });

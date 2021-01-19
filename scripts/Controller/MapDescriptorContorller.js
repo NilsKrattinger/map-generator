@@ -6,33 +6,42 @@ const MapDescriptorController = {
         await this.generateTemperature(MapDescriptor);
         await this.generateMoisture(MapDescriptor);
 
-        await this.islender(MapDescriptor.result.heat, MapDescriptor, 10, 0)
-        await this.islender(MapDescriptor.result.moisture, MapDescriptor, 10, 4)
+        if (MapDescriptor.ile) {
+            await this.islender(MapDescriptor.result.heat, MapDescriptor, MapDescriptor.ileSize, 0)
+            await this.islender(MapDescriptor.result.moisture, MapDescriptor, MapDescriptor.ileSize, 4)
+        }
+
 
 
         await this.smoother(MapDescriptor.result.heat, MapDescriptor, 3);
         await this.smoother(MapDescriptor.result.elevation, MapDescriptor, 1);
         await this.smoother(MapDescriptor.result.moisture, MapDescriptor, 1);
 
-
-        console.log(MapDescriptor.result.heat)
-
         await this.generateBiomAlgo1(MapDescriptor);
+
+        await this.holeFixer(MapDescriptor);
 
 
         await this.smoother(MapDescriptor.result.heat, MapDescriptor, 1);
         await this.smoother(MapDescriptor.result.moisture, MapDescriptor, 1);
 
+        await this.snowCheck(MapDescriptor);
+
+        if (MapDescriptor.Lito) {
+            await this.litoMaker(MapDescriptor);
+        }
+
         await this.holeFixer(MapDescriptor);
 
-       // await this.townPlacment(MapDescriptor);
-
-        await this.litoMaker(MapDescriptor);
 
         await this.SetTileList(MapDescriptor);
-        await this.tilefinder(MapDescriptor);
+
+        if (MapDescriptor.towns) {
+            await this.townPlacment(MapDescriptor, 0.002);
+        }
 
         return MapDescriptor;
+
 
     },
 
@@ -57,7 +66,6 @@ const MapDescriptorController = {
                 data.result.heat[x][y] = ((noise.simplex(0.4 * nx, 0.4 * ny) + 1) * 3);
             }
         }
-        console.log(data.result);
     },
 
     async generateMoisture(data) {
@@ -80,14 +88,6 @@ const MapDescriptorController = {
 
     },
 
-    async tilefinder(data) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
-                data.result.tile[x][y] = await this.findTile(data.result.biome[x][y], data.result.elevation[x][y]);
-            }
-        }
-
-    },
 
     async holeFixer(data) {
         for (let y = 0; y < data.nbColumns; y++) {
@@ -95,10 +95,10 @@ const MapDescriptorController = {
                 let neightbourBiom = new Set();
                 let neightbour = utils.neighbour(new Point(x, y), data.nbRows, data.nbColumns);
                 neightbour.forEach(function (item, index, array) {
-                    neightbourBiom.add(data.result.biome[item.x][item.y]);
+                    neightbourBiom.add((data.result.biome[item.x][item.y]).toString());
                 });
 
-                if (!neightbourBiom.has(data.result.biome[x][y])) {
+                if (!neightbourBiom.has((data.result.biome[x][y]).toString())) {
                     let copiedNeight = neightbour[utils.getRandomInt(neightbour.length)]
                     data.result.biome[x][y] = data.result.biome[copiedNeight.x][copiedNeight.y]
                 }
@@ -116,8 +116,26 @@ const MapDescriptorController = {
                     neightbourBiom.add(data.result.biome[item.x][item.y]);
                 });
 
-                if (neightbourBiom.has(BiomEnum.Sea) && neightbourBiom.has(BiomEnum.Plaine)){
+                if (neightbourBiom.has(BiomEnum.Sea) && (neightbourBiom.has(BiomEnum.Plaine) || neightbourBiom.has(BiomEnum.Snow))) {
                     data.result.biome[x][y] = BiomEnum.Desert;
+                    data.result.elevation[x][y] = 2;
+                }
+            }
+        }
+
+    },
+
+    async snowCheck(data) {
+        for (let y = 0; y < data.nbColumns; y++) {
+            for (let x = 0; x < data.nbRows; x++) {
+                let neightbourBiom = new Set();
+                let neightbour = utils.neighbour(new Point(x, y), data.nbRows, data.nbColumns);
+                neightbour.forEach(function (item, index, array) {
+                    neightbourBiom.add(data.result.biome[item.x][item.y]);
+                });
+
+                if (neightbourBiom.has(BiomEnum.Snow) && (neightbourBiom.has(BiomEnum.Desert) || neightbourBiom.has(BiomEnum.Savanne))) {
+                    data.result.biome[x][y] = BiomEnum.Plaine;
                     data.result.elevation[x][y] = 2;
                 }
             }
@@ -158,38 +176,36 @@ const MapDescriptorController = {
         for (let y = 0; y < data.nbColumns; y++) {
             for (let x = 0; x < data.nbRows; x++) {
 
-                data.result.tile[x][y] = await this.findTile(data.result.heat[x][y], data.result.moisture[x][y], data.result.elevation[x][y]);
+                data.result.tile[x][y] = await this.findTile(data.result.biome[x][y], data.result.elevation[x][y]);
 
             }
         }
     },
 
-    async townPlacment(data, freq){
-        let tileNumber = data.nbColumns * data.nbRows;
-        let nbTown = tileNumber * freq;
-        let townPlaces = new Set;
-
-        for (let i = 0; i < nbTown; i++) {
-
-            let point = new Point(utils.getRandomInt(data.nbColumns),utils.getRandomInt(data.row));
-            if(data.result.biome[point.x][point.y] != BiomEnum.Sea){
-                townPlaces.push(point);
-            }
-        }
-
+    async townPlacment(data, freq) {
         for (let y = 0; y < data.nbColumns; y++) {
             for (let x = 0; x < data.nbRows; x++) {
+                let biome = data.result.biome[x][y];
+                let tile;
+                if (Math.random() < freq && biome != BiomEnum.Sea) {
+                    switch (biome) {
+                        case BiomEnum.Desert:
+                        case BiomEnum.Savanne:
+                            tile = desert_town[utils.getRandomInt(desert_town.length)];
+                            break;
+                        case BiomEnum.Plaine:
+                            tile = plain_town[utils.getRandomInt(snow_town.length)];
+                            break;
+                        case BiomEnum.Snow:
+                            tile = snow_town[utils.getRandomInt(plain_town.length)];
+                            break;
+                    }
+                    data.result.tile[x][y] = tile;
+                    data.result.towns.push(new Point(x, y));
 
-                if(townPlaces.has(new Point(x,y))){
-                    data.result.towns[x][y] = 1;
-
-                } else {
-                    data.result.towns[x][y] = 0;
                 }
-
             }
         }
-
     },
 
     // HORROR SHOW HERE
@@ -300,6 +316,7 @@ const MapDescriptorController = {
     async findTile(biome, altitude) {
 
         let tile;
+
         switch (biome) {
             case BiomEnum.Desert :
                 switch (true) {
@@ -310,7 +327,7 @@ const MapDescriptorController = {
                     case altitude >= 1 && altitude < 2 :
                         tile = desert_colline[utils.getRandomInt(desert_colline.length)];
                         break;
-                    case altitude >= 0 && altitude < 1 :
+                    case  altitude < 1 :
                         tile = desert_montagne[utils.getRandomInt(desert_montagne.length)];
                         break;
                 }
@@ -327,7 +344,7 @@ const MapDescriptorController = {
                     case altitude >= 1 && altitude < 2 :
                         tile = savane_colline[utils.getRandomInt(savane_colline.length)];
                         break;
-                    case altitude >= 0 && altitude < 1 :
+                    case altitude < 1 :
                         tile = savane_montagne[utils.getRandomInt(savane_montagne.length)];
                         break;
                 }
@@ -342,7 +359,7 @@ const MapDescriptorController = {
                     case altitude >= 1 && altitude < 2 :
                         tile = neige_colline[utils.getRandomInt(neige_colline.length)];
                         break;
-                    case altitude >= 0 && altitude < 1 :
+                    case altitude < 1 :
                         tile = neige_montagne[utils.getRandomInt(neige_montagne.length)];
                         break;
                 }
@@ -356,14 +373,15 @@ const MapDescriptorController = {
                     case altitude >= 1 && altitude < 2 :
                         tile = plaine_colline[utils.getRandomInt(plaine_colline.length)];
                         break;
-                    case altitude >= 0 && altitude < 1 :
+                    case altitude < 1 :
                         tile = plaine_montagne[utils.getRandomInt(plaine_montagne.length)];
                         break;
                 }
                 break;
         }
         return tile;
-    },
+    }
+    ,
 
 
 }
