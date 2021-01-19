@@ -17,4 +17,6 @@ const desert_normal = [new Point(5, 1), new Point(5, 2), new Point(5, 3), new Po
 const desert_colline = [new Point(5, 4)]
 const desert_montagne = [new Point(5, 5), new Point(5, 6)]
 
-
+const desert_town = [new Point(8,7),new Point(8,8),new Point(8,9)];
+const snow_town = [new Point(8,4),new Point(8,5),new Point(8,6)];
+const plain_town = [new Point(8,1),new Point(8,2),new Point(8,3)];

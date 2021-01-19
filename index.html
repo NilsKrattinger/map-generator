@@ -23,17 +23,17 @@
         <input id="zoom" type="range" min="1" max="3" step="0.1"/>
     </fieldset>
     <fieldset>
-        <legend>Simplex Control</legend>
+        <legend>Global Control</legend>
         <label>Frequency :</label>
         <input id="frequency" type="range" name="freq" min=0 value="2" max="8" step="0.5">
+        <label>Ajouter les smoothing</label>
     </fieldset>
     <fieldset>
         <legend>île</legend>
         <label>Ile : </label>
-        <input id="ile" type="checkbox" value="false"/>
-        <input id="ileRadius" type="number" name="row" max="100" size="4" min=1 value="20">
-        <label>Distance du continant </label>
-        <input id="distFromCont" type="range" name="distFromCont" min=0 value="30" max="100" step="2">
+        <input id="ileCheckBox" type="checkbox"/>
+        <label>Taille ile</label>
+        <input id="ileSize" type="number" name="row" max=100  min=1 value=20>
         <label>Litorale : </label>
         <input id="lito" type="checkbox" value="false"/>
     </fieldset>
@@ -41,6 +41,8 @@
         <legend>Villes</legend>
         <label>Villes : </label>
         <input id="villes" type="checkbox" value="false"/>
+        <label>Frequance : </label>
+        <input id="townFreq" type="range" min="0" max="1" step="0.01"/>
 
     </fieldset>
 
@@ -59,7 +61,7 @@
 <script src="scripts/model/MapDescriptor.js"></script>
 <script src="scripts/Controller/MapDescriptorContorller.js"></script>
 <script src="scripts/utils.js"></script>
-<script src="scripts/model/liste_tuile.js"></script>
+<script src="src/liste_tuile.js"></script>
 
 
 </html>

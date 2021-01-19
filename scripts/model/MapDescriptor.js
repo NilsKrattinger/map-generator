@@ -2,6 +2,10 @@ const MapDescriptor = {
     nbRows: undefined,
     nbColumns: undefined,
     frequency: undefined,
+    ile : undefined,
+    ileSize : undefined,
+    Lito : undefined,
+    towns : undefined,
     result: {},
 
     changeNbColumn(nbColumn) {
@@ -12,6 +16,29 @@ const MapDescriptor = {
     },
     changeFrequency(frequency) {
         this.frequency = frequency;
+    },
+
+    changeIle(ile){
+        this.ile = ile;
+    },
+
+    changeIleSize(size){
+        this.ileSize = size;
+    },
+
+    changeIleLito(lito){
+        this.Lito = lito;
+    },
+
+    changeTowns(towns){
+        this.towns = towns;
+    },
+
+    getResult(){
+        if(this.result == undefined) {
+           this.init();
+        }
+        return this.result;
     },
 
     init() {
@@ -31,6 +58,7 @@ const MapDescriptor = {
             this.result.moisture[i] = new Array();
             this.result.elevation[i] = new Array();
             this.result.biome[i] = new Array();
+
 
 
         }
