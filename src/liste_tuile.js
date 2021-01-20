@@ -3,7 +3,8 @@ const plaine_normal = [new Point(1, 2),new Point(1, 2),new Point(1, 2), new Poin
 const plaine_colline = [new Point(1, 7), new Point(1, 8)]
 const plaine_montagne = [new Point(1, 9), new Point(1, 10), new Point(1, 11), new Point(1, 12), new Point(7,1)]
 
-const sea_normal = [new Point(6,1)];
+const sea_normal = [new Point(6,5)];
+const litoral_normal = [new Point(6,1)];
 
 const savane_normal = [new Point(3, 1), new Point(3, 2), new Point(3, 3), new Point(3, 4), new Point(3, 5), new Point(3, 11)]
 const savane_colline = [new Point(3, 6), new Point(3, 7), new Point(3, 8)]
@@ -20,3 +21,5 @@ const desert_montagne = [new Point(5, 5), new Point(5, 6)]
 const desert_town = [new Point(8,7),new Point(8,8),new Point(8,9)];
 const snow_town = [new Point(8,4),new Point(8,5),new Point(8,6)];
 const plain_town = [new Point(8,1),new Point(8,2),new Point(8,3)];
+const litoral_town = [new Point(6,14)];
+

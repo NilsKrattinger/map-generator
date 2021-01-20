@@ -1,5 +1,5 @@
 const View = {
-// ** Refs
+    // ** Definition des refs
     canvasContainer: undefined,
     canvasElement: undefined,
 
@@ -12,19 +12,21 @@ const View = {
 
     elevationFrequencySlider: undefined,
 
-    ileCheckBox : undefined,
-    ileSize : undefined,
-    ileLitCheckBox : undefined,
+    ileCheckBox: undefined,
+    ileSize: undefined,
+    ileLitCheckBox: undefined,
 
-    townCheckBox : undefined,
+    townCheckBox: undefined,
+    townFrequency: undefined,
 
 
-
+    // ** Listeners du bouton generer.
     onUpdateGenerate() {
         Controller.generate().catch(r => alert("Erreur lors de l'execution" + r));
 
     },
 
+    // ** Listeners du changement d'un paramettre.
     onUpdateParam() {
         Controller.changeNbRow(this.rowField.value);
         Controller.changeNbColumn(this.columnField.value);
@@ -32,11 +34,11 @@ const View = {
         Controller.changeIle(this.ileCheckBox.checked);
         Controller.changeIleSize(this.ileSize.value);
         Controller.changeTowns(this.townCheckBox.checked);
+        Controller.changeTownsFrequency(this.townFrequency.value);
         Controller.changeIleLito(this.ileLitCheckBox.checked);
-        Controller.generate().catch(r => alert("Erreur lors de l'execution" + r));
 
+        Controller.generate();
     },
-
 
 
     // ** Render methods
@@ -53,18 +55,21 @@ const View = {
         ])
             .then(() => {
                 CnvCtx.clearRect(0, 0, CnvCtx.canvas.width, CnvCtx.canvas.height);
-                CnvCtx.scale(0.5, 0.5);
+              CnvCtx.scale(0.5, 0.5);
                 for (let y = 0; y < tileMap.nbRows; y++) {
                     for (let x = 0; x < tileMap.nbColumns; x++) {
                         let posx = x * 48;
                         if (y % 2 == 0) {
                             posx += 24;
                         }
-                        CnvCtx.drawImage(HEXTILES_IMAGE, utils.getPointOnImage(tileMap.result.tile[y][x]).x, utils.getPointOnImage(tileMap.result.tile[y][x]).y, 32, 48, posx, 14 * y, 32, 48);
+                       CnvCtx.drawImage(HEXTILES_IMAGE, utils.getPointOnImage(tileMap.result.tile[y][x]).x, utils.getPointOnImage(tileMap.result.tile[y][x]).y, 32, 48, posx, 14 * y, 32, 48);
+
                     }
                 }
 
-                CnvCtx.scale(2, 2);
+
+
+              CnvCtx.scale(2, 2);
             });
     }
 
@@ -72,6 +77,7 @@ const View = {
 // ** Init
 document.addEventListener('DOMContentLoaded', () => {
 
+    // Définition des valeurs
     View.canvasContainer = document.getElementById('drawing-container');
     View.canvasElement = document.getElementById("drawing-area");
     View.columnField = document.getElementById('columns');
@@ -81,8 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
     View.ileSize = document.getElementById('ileSize');
     View.ileLitCheckBox = document.getElementById('lito');
     View.townCheckBox = document.getElementById('villes');
+    View.townFrequency = document.getElementById('townFreq');
 
-
+    // Définition des
     document.getElementById('generate').addEventListener('click', View.onUpdateGenerate.bind(View));
     document.getElementById('row').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('columns').addEventListener('change', View.onUpdateParam.bind(View));
@@ -92,8 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ileSize').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('lito').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('villes').addEventListener('change', View.onUpdateParam.bind(View));
-
+    document.getElementById('townFreq').addEventListener('change', View.onUpdateParam.bind(View));
 
 
     Controller.init(View.rowField.value, View.columnField.value, View.elevationFrequencySlider.value);
+    View.onUpdateParam();
 });
