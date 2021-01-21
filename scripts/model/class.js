@@ -4,10 +4,4 @@ function Point(x, y) {
     return this;
 }
 
-function Tile(point, proba) {
-    this.point = point;
-    this.proba = proba;
-    return this;
-}
-
-const BiomEnum = Object.freeze({"Snow": 1, "Plaine": 2, "Savanne": 3, "Desert": 4, "Sea": 5});
+const BiomEnum = Object.freeze({"Snow": 1, "Meadow": 2, "Savanna": 3, "Desert": 4, "Sea": 5, "Littoral" : 6,"Beach" : 7});

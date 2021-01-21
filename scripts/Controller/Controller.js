@@ -1,66 +1,60 @@
 const Controller = {
-
-    changeNbRow(nbRow) {
-        MapDescriptor.changeNbRow(nbRow);
+    setNbRow(nbRow) {
+        configurationDescriptor.setRowNumbers(nbRow);
     },
 
-    changeNbColumn(nbColumn) {
-        MapDescriptor.changeNbColumn(nbColumn);
+    setNbColumn(nbColumn) {
+        configurationDescriptor.SetColumnNumbers(nbColumn);
     },
 
-    changeFrequency(frequency) {
-        MapDescriptor.changeFrequency(frequency);
+    setElevationFrequency(elevationFrequency) {
+        configurationDescriptor.setElevationFrequency(elevationFrequency);
     },
 
-    changeIle(ile) {
-        MapDescriptor.changeIle(ile);
-        console.log(MapDescriptor);
+    setIle(ile) {
+        configurationDescriptor.setHaveIle(ile);
 
     },
 
-    changeIleSize(ileSize) {
-        MapDescriptor.changeIleSize(ileSize);
+    setIleSize(ileSize) {
+        configurationDescriptor.setIleSize(ileSize);
     },
 
-    changeIleLito(lito){
-        MapDescriptor.changeIleLito(lito);
+    setIleLitto(litto){
+        configurationDescriptor.setIleLitto(litto);
     },
 
-    changeTowns(towns){
-        MapDescriptor.changeTowns(towns);
+    setTowns(towns){
+        configurationDescriptor.setHaveTowns(towns);
     },
 
-    changeRiviere(riviere){
-        MapDescriptor.changeRiviere(riviere);
+    setTownsFrequency(frequency){
+        configurationDescriptor.setTownsFrequency(frequency);
+    },
+    SetRiver(riviere){
+        configurationDescriptor.changeRiviere(riviere);
     },
 
     setElevationSlider(elevationSlider){
-        MapDescriptor.setElevationSlider(elevationSlider);
+        configurationDescriptor.setElevationSlider(elevationSlider);
     },
 
     setHumiditeSlider(humiditeSlider){
-        MapDescriptor.setHumiditeSlider(humiditeSlider);
+        configurationDescriptor.setHumiditeSlider(humiditeSlider);
     },
 
     setTemperatureSlider(temperatureSlider){
-        MapDescriptor.setTemperatureSlider(temperatureSlider);
+        configurationDescriptor.setTemperatureSlider(temperatureSlider);
     },
 
 
 
-    init(row, columns, frequency) {
-        MapDescriptor.changeNbRow(row);
-        MapDescriptor.changeNbColumn(columns);
-        MapDescriptor.changeFrequency(frequency);
+    init() {
         noise.seed(Math.random());
-
-        this.generate().catch(r => alert("Erreur : " + r));
-    },
-
-    canvasZoom(scale) {
-    },
+        },
 
     async generate() {
+
         let mapDescriptor = await MapDescriptorController.generate();
         View.printTile(mapDescriptor);
     },

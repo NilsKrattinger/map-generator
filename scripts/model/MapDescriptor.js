@@ -1,83 +1,37 @@
 const MapDescriptor = {
-    nbRows: undefined,
-    nbColumns: undefined,
-    frequency: undefined,
-    ile : undefined,
-    ileSize : undefined,
-    Lito : undefined,
-    towns : undefined,
-    riviere : undefined,
-    temperatureSlider : undefined,
-    humiditeSlider : undefined,
-    elevationSlider : undefined,
-    result: {},
-
-    changeNbColumn(nbColumn) {
-        this.nbColumns = nbColumn;
-    },
-    changeNbRow(nbRow) {
-        this.nbRows = nbRow;
-    },
-    changeFrequency(frequency) {
-        this.frequency = frequency;
-    },
-
-    changeIle(ile){
-        this.ile = ile;
-    },
-
-    changeIleSize(size){
-        this.ileSize = size;
-    },
-
-    changeIleLito(lito){
-        this.Lito = lito;
-    },
-
-    changeTowns(towns){
-        this.towns = towns;
-    },
-    
-    changeRiviere(riviere){
-        this.riviere = riviere;
-    },
-
-    setElevationSlider(elevationSlider){
-        this.elevationSlider = elevationSlider;
-    },
-
-    setHumiditeSlider(humiditeSlider){
-        this.humiditeSlider=humiditeSlider;
-    },
-
-    setTemperatureSlider(temperatureSlider){
-        this.temperatureSlider=temperatureSlider;
-    },
-
-    getResult(){
-        if(this.result == undefined) {
-           this.init();
-        }
-        return this.result;
-    },
-
+    townsNames : undefined,
+    rowNumber : undefined,
+    columnsNumber : undefined,
     init() {
-        this.result = new Object();
-        this.result.nbRows = this.nbRows;
-        this.result.nbColumns = this.nbColumns;
-        this.result.tile = new Array();
-        this.result.biome = new Array();
-        this.result.heat = new Array();
-        this.result.moisture = new Array();
-        this.result.elevation = new Array();
-        this.result.towns = new Array();
+        this.tile = [];
+        this.biome = [];
+        this.heat = [];
+        this.moisture = [];
+        this.elevation = [];
+        this.towns = [];
+        this.townsNames = [];
+        this.pathFinding = [];
+        this.pathFindingRivier = [];
+        this.foundedPath = [];
+        this.usedInPath = [];
+        this.usedInRiver = [];
+        this.foundedRiver = [];
+        this.sources = [];
 
-        for (let i = 0; i < this.nbRows; i++) {
-            this.result.tile[i] = new Array();
-            this.result.heat[i] = new Array();
-            this.result.moisture[i] = new Array();
-            this.result.elevation[i] = new Array();
-            this.result.biome[i] = new Array();
+
+
+        for (let i = 0; i < this.rowNumber; i++) {
+            this.tile[i] = [];
+            this.heat[i] = [];
+            this.moisture[i] = [];
+            this.elevation[i] = [];
+            this.biome[i] = [];
+            this.pathFinding[i] = [];
+            this.usedInPath[i] = [];
+            this.usedInRiver[i] = [];
+            this.pathFindingRivier[i] = [];
+
+
 
 
 

@@ -22,9 +22,9 @@
                     Paramètres d'affichage
                     </legend>
                     <label>Rows: </label>
-                    <input id="row" type="number" class="form-control w-25 mb-2" name="row" minlength="1" maxlength="8" size="8" min=1 value="120">
+                    <input id="row" type="number" class="form-control w-25 mb-2" name="row" minlength="1" maxlength="8" size="8" min=1 value="119">
                     <label>Columns: </label>
-                    <input id="columns" type="number" class="form-control w-25 mb-2" name="columns" max="49" size="8" min=1 value="49">
+                    <input id="columns" type="number" class="form-control w-25 mb-2" name="columns" max="42" size="8" min=1 value="42">
                     <input id="generate" type="button" class="btn btn-outline-primary" value="Generer"/>
                 </fieldset>
                 <fieldset>
@@ -52,7 +52,7 @@
                     <br>
                     <label class="mt-2">Taille île :</label>
                     <input id="ileSize" type="number" class="form-control w-25 mb-2" name="row" max=100  min=1 value=15>
-                    
+
                 </fieldset>
                 <fieldset>
                     <br><legend>Villes</legend>
@@ -60,13 +60,13 @@
                     <input id="villes" type="checkbox" value="false"/>
                     <br>
                     <label>Fréquence : </label>
-                    <input id="townFreq" type="range" class="form-control w-75 mb-2" min="0" max="1" step="0.01"/>
-            
+                    <input id="townFreq" type="range" class="form-control w-75 mb-2" min="0" max="0.005" step="0.0001"/>
+
                 </fieldset>
-            
+
                 <fieldset>
                     <br><legend>Algo</legend>
-            
+
                 </fieldset>
             </div>
         </div>
@@ -75,14 +75,19 @@
 </div>
 
 </body>
-<script src="scripts/view.js"></script>
+
+<script src="scripts/algos/perlin.js"></script>
+<script src="scripts/algos/pathFinder.js">  </script>
+<script src="scripts/model/MapDescriptor.js"></script>
 <script src="scripts/Controller/Controller.js"></script>
 <script src="scripts/model/class.js"></script>
-<script src="scripts/algos/perlin.js"></script>
-<script src="scripts/model/MapDescriptor.js"></script>
 <script src="scripts/Controller/MapDescriptorContorller.js"></script>
 <script src="scripts/utils.js"></script>
 <script src="src/liste_tuile.js"></script>
+<script src="src/townList.js"></script>
+<script src="scripts/view.js"></script>
+<script src="scripts/algos/RiverMaker.js"></script>
+<script src="scripts/model/ConfigurationDescriptor.js"></script>
 
 
 </html>
