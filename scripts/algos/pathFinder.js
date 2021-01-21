@@ -53,7 +53,7 @@ const pathFinder = {
                 let neighbor = data.result.pathFinding[neighbors[i].x][neighbors[i].y];
 
                 let biom = data.result.biome[neighbors[i].x][neighbors[i].y];
-                if (neighbor.closed || biom == BiomEnum.Sea || biom == BiomEnum.litoral) { // not a valid node to process, skip to next neighbor
+                if (neighbor.closed || biom == BiomEnum.Sea || biom == BiomEnum.Littoral) { // not a valid node to process, skip to next neighbor
                     continue;
                 }
 

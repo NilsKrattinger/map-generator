@@ -28,7 +28,7 @@ const MapDescriptor = {
         this.ileSize = size;
     },
 
-    setIleLito(lito){
+    setIleLitto(litto){
         this.haveLittoral = lito;
     },
 

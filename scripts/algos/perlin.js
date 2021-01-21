@@ -6,7 +6,7 @@
 * Optimisations by Peter Eastman (peastman@drizzle.stanford.edu).
 * Better rank ordering method by Stefan Gustavson in 2012.
 * Converted to Javascript by Joseph Gentle.
-* Rewrited for my personal usage.
+* modified by Nils Krattinger for personal usage and used school project.
 *
 * Version 2021-01-05
 *
@@ -88,17 +88,14 @@
         let t = (i+j)*G2;
         let x0 = xin-i+t; // The x,y distances from the cell origin, unskewed.
         let y0 = yin-j+t;
-        // For the 2D case, the simplex shape is an equilateral triangle.
-        // Determine which simplex we are in.
+
         let i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coords
         if(x0>y0) { // lower triangle, XY order: (0,0)->(1,0)->(1,1)
             i1=1; j1=0;
         } else {    // upper triangle, YX order: (0,0)->(0,1)->(1,1)
             i1=0; j1=1;
         }
-        // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
-        // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
-        // c = (3-sqrt(3))/6
+
         let x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
         let y1 = y0 - j1 + G2;
         let x2 = x0 - 1 + 2 * G2; // Offsets for last corner in (x,y) unskewed coords

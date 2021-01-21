@@ -1,5 +1,4 @@
 const Controller = {
-    //
     setNbRow(nbRow) {
         MapDescriptor.setRowNumbers(nbRow);
     },
@@ -8,13 +7,12 @@ const Controller = {
         MapDescriptor.SetColumnNumbers(nbColumn);
     },
 
-    setelevationFrequency(elevationFrequency) {
+    setElevationFrequency(elevationFrequency) {
         MapDescriptor.setElevationFrequency(elevationFrequency);
     },
 
     setIle(ile) {
         MapDescriptor.setHaveIle(ile);
-        (MapDescriptor);
 
     },
 
@@ -22,8 +20,8 @@ const Controller = {
         MapDescriptor.setIleSize(ileSize);
     },
 
-    setIleLito(lito){
-        MapDescriptor.setIleLito(lito);
+    setIleLitto(litto){
+        MapDescriptor.setIleLitto(litto);
     },
 
     setTowns(towns){

@@ -9,7 +9,7 @@ const RivierMaker = {
             let openTile = list[0];
             let openTileBiom = data.result.biome[openTile.x][openTile.y];
 
-            if (openTileBiom == BiomEnum.Sea || openTileBiom == BiomEnum.litoral) {
+            if (openTileBiom == BiomEnum.Sea || openTileBiom == BiomEnum.Littoral) {
                 water = openTile;
             } else {
                 let voisin = utils.neighbors(openTile, data.rowNumber, data.columnsNumber);
@@ -84,7 +84,7 @@ const RivierMaker = {
                 let neighbor = data.result.usedInRiver[neighbors[i].x][neighbors[i].y];
 
                 let biom = data.result.biome[neighbors[i].x][neighbors[i].y];
-                if (neighbor.closed || biom == BiomEnum.Desert || biom == BiomEnum.Savanne) { // not a valid node to process, skip to next neighbor
+                if (neighbor.closed || biom == BiomEnum.Desert || biom == BiomEnum.Savanna) { // not a valid node to process, skip to next neighbor
                     continue;
                 }
 
@@ -94,7 +94,7 @@ const RivierMaker = {
 
                 let tileCost = 0;
 
-                if (data.result.usedInRiver[currentNode.point.x][currentNode.point.y] != 1 || biom == BiomEnum.litoral ) {
+                if (data.result.usedInRiver[currentNode.point.x][currentNode.point.y] != 1 || biom == BiomEnum.Littoral ) {
                     if (data.result.elevation[currentNode.point.x][currentNode.point.y] <= 1.5) {
                         tileCost = 20;
                     } else if (data.result.elevation[currentNode.point.x][currentNode.point.y] <= 2) {

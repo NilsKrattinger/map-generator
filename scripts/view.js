@@ -30,14 +30,14 @@ const View = {
     onUpdateParam() {
         Controller.setNbRow(this.rowField.value);
         Controller.setNbColumn(this.columnField.value);
-        Controller.setelevationFrequency(this.elevationFrequencySlider.value);
+        Controller.setElevationFrequency(this.elevationFrequencySlider.value);
         Controller.setIle(this.ileCheckBox.checked);
         Controller.setIleSize(this.ileSize.value);
         Controller.setTowns(this.townCheckBox.checked);
         Controller.setTownsFrequency(this.townFrequency.value);
-        Controller.setIleLito(this.ileLitCheckBox.checked);
+        Controller.setIleLitto(this.ileLitCheckBox.checked);
 
-        Controller.generate();
+        Controller.generate().then();
     },
 
 
@@ -59,7 +59,7 @@ const View = {
                 for (let y = 0; y < tileMap.rowNumber; y++) {
                     for (let x = 0; x < tileMap.columnsNumber; x++) {
                         let posx = x * 48;
-                        if (y % 2 == 0) {
+                        if (y % 2 === 0) {
                             posx += 24;
                         }
                         CnvCtx.drawImage(HEXTILES_IMAGE, utils.tileToPixel(tileMap.result.tile[y][x]).x, utils.tileToPixel(tileMap.result.tile[y][x]).y, 32, 48, posx, 14 * y, 32, 48);
@@ -67,50 +67,34 @@ const View = {
                 }
 
 
-                // ** Display haveTowns name
+                // ** Affichage du noms des villes
                 for (let i = 0; i < tileMap.result.haveTowns.length; i++) {
                     let town = tileMap.result.haveTowns[i];
                     let townName = tileMap.result.townsNames[i];
-                    (town);
 
-                    let posx = town.y * 48;
-                    if (town.x % 2 == 0) {
-                        posx += 24;
-                    }
-                    let posy = town.x * 14;
+                    let pos = utils.tileToPixelOnCanvas(new Point(town.x,town.y));
 
                     CnvCtx.font = '20px serif';
-                    CnvCtx.fillText(townName, posx, posy);
+                    CnvCtx.fillText(townName, pos.x, pos.y);
 
                 }
 
                 // ** Display paths
                 for (let i = 0; i < tileMap.result.foundedRiver.length; i++) {
-                    (tileMap.result.foundedRiver);
                     let path = tileMap.result.foundedRiver[i];
                     for (let j = 0; j < path.length - 1; j++) {
 
                         // Conversion des Coordonées du point 1
-                        let posx = path[j].point.y * 48;
-                        if (path[j].point.x % 2 == 0) {
-                            posx += 24;
-                        }
-                        let posy = path[j].point.x * 14;
-
-                        // Conversion des Coordonées du point 1
-                        let posxNext = path[j + 1].point.y * 48;
-                        if (path[j + 1].point.x % 2 == 0) {
-                            posxNext += 24;
-                        }
-                        let posyNext = path[j + 1].point.x * 14;
+                        let pos = utils.tileToPixelOnCanvas(path[j].point);
+                        let posNext = utils.tileToPixelOnCanvas(path[j+1].point);
 
                         CnvCtx.beginPath();
                         CnvCtx.lineWidth = 8;
                         CnvCtx.strokeStyle = '#249fff';
-                        let hexCenter = utils.getHexCenter(new Point(posx, posy));
+                        let hexCenter = utils.getHexCenter(new Point(pos.x, pos.y));
                         CnvCtx.moveTo(hexCenter.x, hexCenter.y);
 
-                        hexCenter = utils.getHexCenter(new Point(posxNext, posyNext));
+                        hexCenter = utils.getHexCenter(new Point(posNext.x, posNext.y));
                         CnvCtx.lineTo(hexCenter.x, hexCenter.y);
                         CnvCtx.stroke();
                     }
@@ -122,32 +106,21 @@ const View = {
                     for (let j = 0; j < path.length - 1; j++) {
 
                         // Conversion des Coordonées du point 1
-                        let posx = path[j].point.y * 48;
-                        if (path[j].point.x % 2 == 0) {
-                            posx += 24;
-                        }
-                        let posy = path[j].point.x * 14;
+                        let pos = utils.tileToPixelOnCanvas(path[j].point);
+                        let posNext = utils.tileToPixelOnCanvas(path[j+1].point);
 
-                        // Conversion des Coordonées du point 1
-                        let posxNext = path[j + 1].point.y * 48;
-                        if (path[j + 1].point.x % 2 == 0) {
-                            posxNext += 24;
-                        }
-                        let posyNext = path[j + 1].point.x * 14;
                         CnvCtx.strokeStyle = '#000000';
                         CnvCtx.beginPath();
                         CnvCtx.lineWidth = 4;
-                        let hexCenter = utils.getHexCenter(new Point(posx, posy));
+                        let hexCenter = utils.getHexCenter(pos);
                         CnvCtx.moveTo(hexCenter.x, hexCenter.y);
 
-                        hexCenter = utils.getHexCenter(new Point(posxNext, posyNext));
+                        hexCenter = utils.getHexCenter(posNext);
                         CnvCtx.lineTo(hexCenter.x, hexCenter.y);
                         CnvCtx.stroke();
                     }
 
                 }
-
-
                 CnvCtx.scale(2,2);
             });
     }

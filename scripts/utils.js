@@ -19,6 +19,15 @@ const utils = {
         return Math.floor(Math.random() * Math.floor(max));
     },
 
+    tileToPixelOnCanvas(point){
+        let posx = point.y * 48;
+        if (point.x % 2 === 0) {
+            posx += 24;
+        }
+        let posy = point.x * 14;
+
+        return new Point(posx,posy);
+    },
 
     // ** Return the center of an hexagon
     getHexCenter(point) {
@@ -51,6 +60,7 @@ const utils = {
         return neighborsArray;
     },
 
+    // Retourne la moyenne des valeurs d'un layer au position contenue dans le array
     avgArray(array, layer) {
 
         let somme = 0;
@@ -62,11 +72,13 @@ const utils = {
         return somme / array.length;
     },
 
+    // Retourne la distance entre deux point avec la distance de X / Rand(10) // utilisé dans la generation des formes d'iles
     distancePointByRand(p1, p2) {
         return Math.sqrt((Math.pow(p2.x - p1.x, 2)) / utils.getRandomInt(10) +
             Math.pow(p2.y - p1.y, 2) * 1.0);
     },
 
+    // Retourne la distance entre deux points
     distancePoint(p1, p2) {
         return Math.sqrt((Math.pow(p2.x - p1.x, 2)) +
             Math.pow(p2.y - p1.y, 2) * 1.0);
