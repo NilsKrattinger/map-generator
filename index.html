@@ -19,7 +19,7 @@
         </legend>
         <input id="generate" type="button" value="Generer"/>
         <input id="row" type="number" name="row" min="10" max="120" size="8" min=1 value="120">
-        <input id="columns" type="number" name="columns" minlength="1" maxlength="8" size="8" min=1 value="60">
+        <input id="columns" type="number" name="columns" max="40" size="8" min=1 value="40">
         <input id="zoom" type="range" min="1" max="3" step="0.1"/>
     </fieldset>
     <fieldset>
@@ -33,7 +33,7 @@
         <label>Ile : </label>
         <input id="ileCheckBox" type="checkbox" checked/>
         <label>Taille ile</label>
-        <input id="ileSize" type="number" max=100  min=1 value=20>
+        <input id="ileSize" type="number" max=100  min=1 value=15>
         <label>Litorale : </label>
         <input id="lito" type="checkbox" checked/>
     </fieldset>
@@ -54,15 +54,17 @@
 </div>
 
 </body>
-<script src="scripts/view.js"></script>
+
+<script src="scripts/algos/perlin.js"></script>
+<script src="scripts/algos/pathfinder.js">  </script>
+<script src="scripts/model/MapDescriptor.js"></script>
 <script src="scripts/Controller/Controller.js"></script>
 <script src="scripts/model/class.js"></script>
-<script src="scripts/algos/perlin.js"></script>
-<script src="scripts/model/MapDescriptor.js"></script>
 <script src="scripts/Controller/MapDescriptorContorller.js"></script>
 <script src="scripts/utils.js"></script>
 <script src="src/liste_tuile.js"></script>
 <script src="src/townList.js"></script>
+<script src="scripts/view.js"></script>
 
 
 </html>

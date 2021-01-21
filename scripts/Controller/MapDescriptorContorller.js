@@ -40,24 +40,24 @@ const MapDescriptorController = {
         await this.SetTileList(MapDescriptor);
 
 
-
         if (MapDescriptor.towns) {
             await this.townPlacment(MapDescriptor, MapDescriptor.townsFrequency);
             await this.nameTown(MapDescriptor);
         }
 
-        if (MapDescriptor.result.towns.length >= 2){
-            let path = await (utils.pathfinder(MapDescriptor,MapDescriptor.result.towns[0], MapDescriptor.result.towns[1])).slice();
-
-            for (let i = 0; i < path.length; i++) {
-                MapDescriptor.result.tile[path[i].point.x][path[i].point.y] = new Point(10,10);
+        if (MapDescriptor.result.towns.length >= 2) {
+            let j = 0;
+            for (let i = 1; i < MapDescriptor.result.towns.length; i++) {
+                for (let k = j; k < MapDescriptor.result.towns.length; k++) {
+                    let path = await (pathfinder.pathfinder(MapDescriptor, MapDescriptor.result.towns[i], MapDescriptor.result.towns[k])).slice();
+                    MapDescriptor.result.foundedPath.push(path);
+                }
+                j++;
             }
         }
 
 
         return MapDescriptor;
-
-
 
 
     },
@@ -152,7 +152,7 @@ const MapDescriptorController = {
                     neightbourBiom.add(data.result.biome[item.x][item.y]);
                 });
 
-                if (data.result.biome[x][y] != BiomEnum.Desert && neightbourBiom.has(BiomEnum.Sea) && (neightbourBiom.has(BiomEnum.Plaine) || neightbourBiom.has(BiomEnum.Snow) || neightbourBiom.has(BiomEnum.Desert) || neightbourBiom.has(BiomEnum.Savanne) )) {
+                if (data.result.biome[x][y] != BiomEnum.Desert && neightbourBiom.has(BiomEnum.Sea) && (neightbourBiom.has(BiomEnum.Plaine) || neightbourBiom.has(BiomEnum.Snow) || neightbourBiom.has(BiomEnum.Desert) || neightbourBiom.has(BiomEnum.Savanne))) {
                     data.result.biome[x][y] = BiomEnum.litoral;
                     data.result.elevation[x][y] = 2;
                 }
@@ -222,9 +222,9 @@ const MapDescriptorController = {
 
             let index = utils.getRandomInt(nameList.length);
             data.result.townsName.push(nameList[index]);
-            nameList.splice(index,1);
+            nameList.splice(index, 1);
         }
-        console.log( data.result.townsName);
+        console.log(data.result.townsName);
     },
 
 
@@ -408,10 +408,10 @@ const MapDescriptorController = {
                     case altitude >= 2  :
                         tile = neige_normal[utils.getRandomInt(neige_normal.length)];
                         break;
-                    case altitude >= 1 && altitude < 2 :
+                    case altitude >= 1.5 && altitude < 2 :
                         tile = neige_colline[utils.getRandomInt(neige_colline.length)];
                         break;
-                    case altitude < 1 :
+                    case altitude < 1.5 :
                         tile = neige_montagne[utils.getRandomInt(neige_montagne.length)];
                         break;
                 }
