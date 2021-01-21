@@ -2,29 +2,42 @@ const Controller = {
 
     changeNbRow(nbRow) {
         MapDescriptor.changeNbRow(nbRow);
-        this.generate().catch(r => alert("Erreur : " + r) );
-
     },
 
     changeNbColumn(nbColumn) {
         MapDescriptor.changeNbColumn(nbColumn);
-        this.generate().catch(r => alert("Erreur : " + r) );
-
-
     },
 
     changeFrequency(frequency) {
         MapDescriptor.changeFrequency(frequency);
-        this.generate().catch(r => alert("Erreur : " + r) );
     },
 
-    init(row, columns,frequency) {
+    changeIle(ile) {
+        MapDescriptor.changeIle(ile);
+        console.log(MapDescriptor);
+
+    },
+
+    changeIleSize(ileSize) {
+        MapDescriptor.changeIleSize(ileSize);
+    },
+
+    changeIleLito(lito){
+        MapDescriptor.changeIleLito(lito);
+    },
+
+    changeTowns(towns){
+        MapDescriptor.changeTowns(towns);
+    },
+
+
+    init(row, columns, frequency) {
         MapDescriptor.changeNbRow(row);
         MapDescriptor.changeNbColumn(columns);
         MapDescriptor.changeFrequency(frequency);
         noise.seed(Math.random());
 
-        this.generate().catch(r => alert("Erreur : " + r) );
+        this.generate().catch(r => alert("Erreur : " + r));
     },
 
     canvasZoom(scale) {
@@ -32,7 +45,6 @@ const Controller = {
 
     async generate() {
         let mapDescriptor = await MapDescriptorController.generate();
-        console.log(mapDescriptor)
         View.printTile(mapDescriptor);
     },
 

@@ -1,18 +1,50 @@
-graph();
+const utils = {
+    getPointOnImage(point) {
+        let realPoint = new Point((point.y - 1) * 32, (point.x - 1) * 48)
+        return realPoint;
+    },
+    getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    },
 
-function graph() {
-    var canvas = document.getElementById("myCanvas");
-    var theContext = canvas.getContext("2d");
-    var sales = [52, 48, 74, 31, 47, 25, 67, 78, 45, 15, 85];
-    var width = 300;
-    var height = 100;
-    var uSpacing = 10;
-    var border = 20;
-    var scalar = 100;
+    neighbour(point, maxX, maxY) {
+        let neighbour = [];
+        let neighbourProba;
+        let voisins;
 
-    theContext.strokeRect(border, border, width, height)
-    theContext.beginPath();
-    theContext.moveTo(100,100);
-    theContext.lineTo(52,48);
-    theContext.stroke();
+            if (point.x % 2 == 0) {
+                voisins = [new Point(point.x - 1, point.y), new Point(point.x + 1, point.y), new Point(point.x + 2, point.y), new Point(point.x + 1, point.y + 1), new Point(point.x - 1, point.y + 1), new Point(point.x - 2, point.y)];
+            } else {
+                if (point.y % 2 == 0) {
+                    voisins = [new Point(point.x - 1, point.y - 1), new Point(point.x + 1, point.y - 1), new Point(point.x - 2, point.y), new Point(point.x + 1, point.y), new Point(point.x - 1, point.y), new Point(point.x + 2, point.y)];
+                }else {
+                    voisins = [new Point(point.x - 1, point.y - 1), new Point(point.x + 1, point.y - 1), new Point(point.x + 2, point.y), new Point(point.x + 1, point.y), new Point(point.x - 1, point.y), new Point(point.x - 2, point.y)];
+
+                }
+        }
+
+        for (let j = 0; j < voisins.length; j++) {
+            neighbourProba = voisins[j];
+            if (!(neighbourProba.y < 0 || neighbourProba.x < 0 || neighbourProba.x >= maxX || neighbourProba.y >= maxY)) {
+                neighbour.push(new Point(neighbourProba.x, neighbourProba.y));
+            }
+        }
+        return neighbour;
+    },
+
+    avgArray(array, layer) {
+
+        let somme = 0;
+
+        for (let i = 0; i < array.length; i++) {
+
+            somme = somme + layer[array[i].x][array[i].y];
+        }
+        return somme / array.length;
+    },
+
+    distancePoint(p1, p2) {
+        return Math.sqrt((Math.pow(p2.x - p1.x, 2)) / utils.getRandomInt(10) +
+            Math.pow(p2.y - p1.y, 2) * 1.0);
+    }
 }
