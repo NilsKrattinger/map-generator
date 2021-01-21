@@ -38,9 +38,6 @@ const Controller = {
         noise.seed(Math.random());
         },
 
-    canvasZoom(scale) {
-    },
-
     async generate() {
         let mapDescriptor = await MapDescriptorController.generate();
         View.printTile(mapDescriptor);

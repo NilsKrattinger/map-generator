@@ -85,8 +85,9 @@ const View = {
                 }
 
                 // ** Display paths
-                for (let i = 0; i < tileMap.result.foundedPath.length; i++) {
-                    let path = tileMap.result.foundedPath[i];
+                for (let i = 0; i < tileMap.result.foundedRiver.length; i++) {
+                    console.log(tileMap.result.foundedRiver);
+                    let path = tileMap.result.foundedRiver[i];
                     for (let j = 0; j < path.length - 1; j++) {
 
                         // Conversion des Coordonées du point 1
@@ -104,6 +105,37 @@ const View = {
                         let posyNext = path[j + 1].point.x * 14;
 
                         CnvCtx.beginPath();
+                        CnvCtx.lineWidth = 6;
+                        CnvCtx.strokeStyle = '#249fff';
+                        let hexCenter = utils.getHexCenter(new Point(posx, posy));
+                        CnvCtx.moveTo(hexCenter.x, hexCenter.y);
+
+                        hexCenter = utils.getHexCenter(new Point(posxNext, posyNext));
+                        CnvCtx.lineTo(hexCenter.x, hexCenter.y);
+                        CnvCtx.stroke();
+                    }
+
+                }
+                // ** Display paths
+                for (let i = 0; i < tileMap.result.foundedPath.length; i++) {
+                    let path = tileMap.result.foundedPath[i];
+                    for (let j = 0; j < path.length - 1; j++) {
+
+                        // Conversion des Coordonées du point 1
+                        let posx = path[j].point.y * 48;
+                        if (path[j].point.x % 2 == 0) {
+                            posx += 24;
+                        }
+                        let posy = path[j].point.x * 14;
+
+                        // Conversion des Coordonées du point 1
+                        let posxNext = path[j + 1].point.y * 48;
+                        if (path[j + 1].point.x % 2 == 0) {
+                            posxNext += 24;
+                        }
+                        let posyNext = path[j + 1].point.x * 14;
+                        CnvCtx.strokeStyle = '#000000';
+                        CnvCtx.beginPath();
                         CnvCtx.lineWidth = 4;
                         let hexCenter = utils.getHexCenter(new Point(posx, posy));
                         CnvCtx.moveTo(hexCenter.x, hexCenter.y);
@@ -114,6 +146,7 @@ const View = {
                     }
 
                 }
+
 
                 CnvCtx.scale(2,2);
             });

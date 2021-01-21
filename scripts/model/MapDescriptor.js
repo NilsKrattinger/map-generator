@@ -59,8 +59,14 @@ const MapDescriptor = {
         this.result.towns = new Array();
         this.result.townsName = new Array();
         this.result.pathfinding = new Array();
+        this.result.pathfindingRivier = new Array();
+
         this.result.foundedPath = new Array();
         this.result.usedInPath = new Array();
+        this.result.usedInRiver = new Array();
+        this.result.foundedRiver = new Array();
+        this.result.sources = new Array();
+
 
 
         for (let i = 0; i < this.nbRows; i++) {
@@ -71,6 +77,8 @@ const MapDescriptor = {
             this.result.biome[i] = new Array();
             this.result.pathfinding[i] = new Array();
             this.result.usedInPath[i] = new Array();
+            this.result.usedInRiver[i] = new Array();
+            this.result.pathfindingRivier[i] = new Array();
 
 
 

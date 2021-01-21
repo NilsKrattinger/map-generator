@@ -47,7 +47,7 @@ const MapDescriptorController = {
 
         if (MapDescriptor.result.towns.length >= 2) {
             let j = 0;
-            for (let i = 1; i < MapDescriptor.result.towns.length; i++) {
+            for (let i = 0; i < MapDescriptor.result.towns.length; i++) {
                 for (let k = j; k < MapDescriptor.result.towns.length; k++) {
                     let path = await (pathfinder.pathfinder(MapDescriptor, MapDescriptor.result.towns[i], MapDescriptor.result.towns[k])).slice();
                     MapDescriptor.result.foundedPath.push(path);
@@ -55,6 +55,22 @@ const MapDescriptorController = {
                 j++;
             }
         }
+
+        await this.SourcesPlacment(MapDescriptor,0.002);
+
+console.log("test" ,MapDescriptor.result.sources);
+        for (let i = 0; i < MapDescriptor.result.sources.length; i++) {
+            let end = await RivierMaker.waterFinder(MapDescriptor, MapDescriptor.result.sources[i]);
+            let riviere = await (RivierMaker.pathfinderForRivier(MapDescriptor, end, MapDescriptor.result.sources[i])).slice();
+            if (riviere) {
+                MapDescriptor.result.foundedRiver.push(riviere);
+            }
+
+        }
+
+
+
+
 
 
         return MapDescriptor;
@@ -252,6 +268,17 @@ const MapDescriptorController = {
                     data.result.tile[x][y] = tile;
                     data.result.towns.push(new Point(x, y));
 
+                }
+            }
+        }
+    },
+
+    async SourcesPlacment(data, freq) {
+        for (let y = 0; y < data.nbColumns; y++) {
+            for (let x = 0; x < data.nbRows; x++) {
+                let biome = data.result.biome[x][y];
+                if (Math.random() < freq && biome != BiomEnum.Desert && biome != BiomEnum.Sea && biome != BiomEnum.litoral ) {
+                    data.result.sources.push(new Point(x, y));
                 }
             }
         }
