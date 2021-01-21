@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('generate').addEventListener('click', View.onUpdateGenerate.bind(View));
     document.getElementById('row').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('columns').addEventListener('change', View.onUpdateParam.bind(View));
-    document.getElementById('zoom').addEventListener('input', View.onUpdateParam.bind(View));
     document.getElementById('frequency').addEventListener("input", View.onUpdateParam.bind(View));
     document.getElementById('ileCheckBox').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('ileSize').addEventListener('change', View.onUpdateParam.bind(View));
