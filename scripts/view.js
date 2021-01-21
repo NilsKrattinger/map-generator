@@ -71,7 +71,7 @@ const View = {
                 for (let i = 0; i < tileMap.result.towns.length; i++) {
                     let town = tileMap.result.towns[i];
                     let townName = tileMap.result.townsName[i];
-                    console.log(town);
+                    (town);
 
                     let posx = town.y * 48;
                     if (town.x % 2 == 0) {
@@ -86,7 +86,7 @@ const View = {
 
                 // ** Display paths
                 for (let i = 0; i < tileMap.result.foundedRiver.length; i++) {
-                    console.log(tileMap.result.foundedRiver);
+                    (tileMap.result.foundedRiver);
                     let path = tileMap.result.foundedRiver[i];
                     for (let j = 0; j < path.length - 1; j++) {
 
@@ -105,7 +105,7 @@ const View = {
                         let posyNext = path[j + 1].point.x * 14;
 
                         CnvCtx.beginPath();
-                        CnvCtx.lineWidth = 6;
+                        CnvCtx.lineWidth = 8;
                         CnvCtx.strokeStyle = '#249fff';
                         let hexCenter = utils.getHexCenter(new Point(posx, posy));
                         CnvCtx.moveTo(hexCenter.x, hexCenter.y);

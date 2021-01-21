@@ -5,6 +5,8 @@ const plaine_montagne = [new Point(1, 9), new Point(1, 10), new Point(1, 11), ne
 
 const sea_normal = [new Point(6,5)];
 const litoral_normal = [new Point(6,1)];
+const beach_normal = [new Point(5, 1),new Point(5, 1),new Point(5, 1), new Point(5, 2)];
+
 
 const savane_normal = [new Point(3, 1), new Point(3, 2), new Point(3, 3), new Point(3, 4), new Point(3, 5), new Point(3, 11)]
 const savane_colline = [new Point(3, 6), new Point(3, 7), new Point(3, 8)]

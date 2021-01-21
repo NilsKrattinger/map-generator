@@ -56,9 +56,7 @@ const MapDescriptorController = {
             }
         }
 
-        await this.SourcesPlacment(MapDescriptor,0.002);
-
-console.log("test" ,MapDescriptor.result.sources);
+        await this.SourcesPlacment(MapDescriptor, 0.002);
         for (let i = 0; i < MapDescriptor.result.sources.length; i++) {
             let end = await RivierMaker.waterFinder(MapDescriptor, MapDescriptor.result.sources[i]);
             let riviere = await (RivierMaker.pathfinderForRivier(MapDescriptor, end, MapDescriptor.result.sources[i])).slice();
@@ -67,16 +65,9 @@ console.log("test" ,MapDescriptor.result.sources);
             }
 
         }
-
-
-
-
-
-
         return MapDescriptor;
-
-
     },
+
 
     async generateElevation(data) {
         for (let y = 0; y < data.nbColumns; y++) {
@@ -149,8 +140,8 @@ console.log("test" ,MapDescriptor.result.sources);
                     neightbourBiom.add(data.result.biome[item.x][item.y]);
                 });
 
-                if (neightbourBiom.has(BiomEnum.Sea) && (neightbourBiom.has(BiomEnum.Plaine) || neightbourBiom.has(BiomEnum.Snow))) {
-                    data.result.biome[x][y] = BiomEnum.Desert;
+                if (neightbourBiom.has(BiomEnum.Sea) && ((neightbourBiom.has(BiomEnum.Plaine) || neightbourBiom.has(BiomEnum.Desert) || neightbourBiom.has(BiomEnum.Snow)))) {
+                    data.result.biome[x][y] = BiomEnum.beach;
                     data.result.elevation[x][y] = 2;
                 }
             }
@@ -168,7 +159,7 @@ console.log("test" ,MapDescriptor.result.sources);
                     neightbourBiom.add(data.result.biome[item.x][item.y]);
                 });
 
-                if (data.result.biome[x][y] != BiomEnum.Desert && neightbourBiom.has(BiomEnum.Sea) && (neightbourBiom.has(BiomEnum.Plaine) || neightbourBiom.has(BiomEnum.Snow) || neightbourBiom.has(BiomEnum.Desert) || neightbourBiom.has(BiomEnum.Savanne))) {
+                if (data.result.biome[x][y] != BiomEnum.beach && neightbourBiom.has(BiomEnum.Sea) && (neightbourBiom.has(BiomEnum.Plaine) || neightbourBiom.has(BiomEnum.Snow) || neightbourBiom.has(BiomEnum.Desert) || neightbourBiom.has(BiomEnum.beach) || neightbourBiom.has(BiomEnum.Savanne))) {
                     data.result.biome[x][y] = BiomEnum.litoral;
                     data.result.elevation[x][y] = 2;
                 }
@@ -240,7 +231,7 @@ console.log("test" ,MapDescriptor.result.sources);
             data.result.townsName.push(nameList[index]);
             nameList.splice(index, 1);
         }
-        console.log(data.result.townsName);
+        (data.result.townsName);
     },
 
 
@@ -253,6 +244,7 @@ console.log("test" ,MapDescriptor.result.sources);
                     switch (biome) {
                         case BiomEnum.Desert:
                         case BiomEnum.Savanne:
+                        case BiomEnum.beach :
                             tile = desert_town[utils.getRandomInt(desert_town.length)];
                             break;
                         case BiomEnum.Plaine:
@@ -277,7 +269,7 @@ console.log("test" ,MapDescriptor.result.sources);
         for (let y = 0; y < data.nbColumns; y++) {
             for (let x = 0; x < data.nbRows; x++) {
                 let biome = data.result.biome[x][y];
-                if (Math.random() < freq && biome != BiomEnum.Desert && biome != BiomEnum.Sea && biome != BiomEnum.litoral ) {
+                if (Math.random() < freq && biome != BiomEnum.Desert && biome != BiomEnum.Sea && biome != BiomEnum.litoral) {
                     data.result.sources.push(new Point(x, y));
                 }
             }
@@ -392,7 +384,6 @@ console.log("test" ,MapDescriptor.result.sources);
     async findTile(biome, altitude) {
 
         let tile;
-
         switch (biome) {
             case BiomEnum.Desert :
                 switch (true) {
@@ -407,12 +398,23 @@ console.log("test" ,MapDescriptor.result.sources);
                         tile = desert_montagne[utils.getRandomInt(desert_montagne.length)];
                         break;
                 }
+
+
                 break
             case BiomEnum.Sea :
                 tile = sea_normal[0];
+
+
                 break;
             case BiomEnum.litoral :
                 tile = litoral_normal[0];
+
+
+                break;
+            case BiomEnum.beach :
+                tile = beach_normal[utils.getRandomInt(beach_normal.length)];
+
+
                 break;
             case BiomEnum.Savanne :
                 switch (true) {
@@ -427,6 +429,8 @@ console.log("test" ,MapDescriptor.result.sources);
                         tile = savane_montagne[utils.getRandomInt(savane_montagne.length)];
                         break;
                 }
+
+
                 break;
 
             case BiomEnum.Snow :
@@ -442,6 +446,8 @@ console.log("test" ,MapDescriptor.result.sources);
                         tile = neige_montagne[utils.getRandomInt(neige_montagne.length)];
                         break;
                 }
+
+
                 break;
             case BiomEnum.Plaine :
                 switch (true) {
@@ -456,8 +462,12 @@ console.log("test" ,MapDescriptor.result.sources);
                         tile = plaine_montagne[utils.getRandomInt(plaine_montagne.length)];
                         break;
                 }
+
+
                 break;
         }
+
+
         return tile;
     }
     ,

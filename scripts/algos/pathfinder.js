@@ -100,7 +100,7 @@ const pathfinder = {
 
 
         }
-        console.log("oupsi");
+        ("oupsi");
 
         return [];
     }

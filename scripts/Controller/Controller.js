@@ -14,7 +14,7 @@ const Controller = {
 
     changeIle(ile) {
         MapDescriptor.changeIle(ile);
-        console.log(MapDescriptor);
+        (MapDescriptor);
 
     },
 

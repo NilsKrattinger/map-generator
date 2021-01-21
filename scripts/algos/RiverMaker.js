@@ -84,7 +84,7 @@ const RivierMaker = {
                 let neighbor = data.result.usedInRiver[neighbors[i].x][neighbors[i].y];
 
                 let biom = data.result.biome[neighbors[i].x][neighbors[i].y];
-                if (neighbor.closed) { // not a valid node to process, skip to next neighbor
+                if (neighbor.closed || biom == BiomEnum.Desert || biom == BiomEnum.Savanne) { // not a valid node to process, skip to next neighbor
                     continue;
                 }
 
