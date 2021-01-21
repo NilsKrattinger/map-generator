@@ -1,37 +1,35 @@
 const Controller = {
-    //
-    changeNbRow(nbRow) {
-        MapDescriptor.changeNbRow(nbRow);
+    setNbRow(nbRow) {
+        MapDescriptor.setRowNumbers(nbRow);
     },
 
-    changeNbColumn(nbColumn) {
-        MapDescriptor.changeNbColumn(nbColumn);
+    setNbColumn(nbColumn) {
+        MapDescriptor.SetColumnNumbers(nbColumn);
     },
 
-    changeFrequency(frequency) {
-        MapDescriptor.changeFrequency(frequency);
+    setElevationFrequency(elevationFrequency) {
+        MapDescriptor.setElevationFrequency(elevationFrequency);
     },
 
-    changeIle(ile) {
-        MapDescriptor.changeIle(ile);
-        (MapDescriptor);
+    setIle(ile) {
+        MapDescriptor.setHaveIle(ile);
 
     },
 
-    changeIleSize(ileSize) {
-        MapDescriptor.changeIleSize(ileSize);
+    setIleSize(ileSize) {
+        MapDescriptor.setIleSize(ileSize);
     },
 
-    changeIleLito(lito){
-        MapDescriptor.changeIleLito(lito);
+    setIleLitto(litto){
+        MapDescriptor.setIleLitto(litto);
     },
 
-    changeTowns(towns){
-        MapDescriptor.changeTowns(towns);
+    setTowns(towns){
+        MapDescriptor.setTowns(towns);
     },
 
-    changeTownsFrequency(frequency){
-        MapDescriptor.changeTownsFrequency(frequency);
+    setTownsFrequency(frequency){
+        MapDescriptor.setTownsFrequency(frequency);
     },
 
     init() {
