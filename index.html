@@ -8,28 +8,30 @@
 
 <body>
 
-<div class="row">
-    <div class="col-8">
-        <div id="drawing-container">
-            <canvas id="drawing-area" width="1500" height="600"></canvas>
-        </div>   
-    </div>
-    <div class="col-4">
-        <div id="config-panel">
-            <fieldset>
-                <legend>
-                   Paramètres d'affichage
-                </legend>
-                <input id="generate" type="button" class="btn btn-outline-primary" value="Generer"/>
-                <input id="row" type="number" name="row" minlength="1" maxlength="8" size="8" min=1 value="40">
-                <input id="columns" type="number" name="columns"  minlength="1" maxlength="8" size="8" min=1 value="10">
-                <input id="zoom" type="range" min="1" max="3" step="0.1"/>
-            </fieldset>
-            <fieldset>
-                <legend>Simplex Control</legend>
-                <label>Frequency :</label>
-                <input id="frequency" type="range" name="row" min=1 value="2" max="8">
-            </fieldset>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+            <div id="drawing-container">
+                <canvas id="drawing-area" width="1500" height="600"></canvas>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="border-main border-width-3" id="config-panel">
+                <fieldset>
+                    <legend>
+                    Paramètres d'affichage
+                    </legend>
+                    <input id="generate" type="button" class="btn btn-outline-primary" value="Generer"/>
+                    <input id="row" type="number" name="row" minlength="1" maxlength="8" size="8" min=1 value="40">
+                    <input id="columns" type="number" name="columns"  minlength="1" maxlength="8" size="8" min=1 value="10">
+                    <input id="zoom" type="range" min="1" max="3" step="0.1"/>
+                </fieldset>
+                <fieldset>
+                    <legend>Simplex Control</legend>
+                    <label>Frequency :</label>
+                    <input id="frequency" type="range" name="row" min=1 value="2" max="8">
+                </fieldset>
+            </div>
         </div>
     </div>
 </div>
