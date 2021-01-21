@@ -1,42 +1,60 @@
 const Controller = {
     setNbRow(nbRow) {
-        MapDescriptor.setRowNumbers(nbRow);
+        configurationDescriptor.setRowNumbers(nbRow);
     },
 
     setNbColumn(nbColumn) {
-        MapDescriptor.SetColumnNumbers(nbColumn);
+        configurationDescriptor.SetColumnNumbers(nbColumn);
     },
 
     setElevationFrequency(elevationFrequency) {
-        MapDescriptor.setElevationFrequency(elevationFrequency);
+        configurationDescriptor.setElevationFrequency(elevationFrequency);
     },
 
     setIle(ile) {
-        MapDescriptor.setHaveIle(ile);
+        configurationDescriptor.setHaveIle(ile);
 
     },
 
     setIleSize(ileSize) {
-        MapDescriptor.setIleSize(ileSize);
+        configurationDescriptor.setIleSize(ileSize);
     },
 
     setIleLitto(litto){
-        MapDescriptor.setIleLitto(litto);
+        configurationDescriptor.setIleLitto(litto);
     },
 
     setTowns(towns){
-        MapDescriptor.setTowns(towns);
+        configurationDescriptor.setHaveTowns(towns);
     },
 
     setTownsFrequency(frequency){
-        MapDescriptor.setTownsFrequency(frequency);
+        configurationDescriptor.setTownsFrequency(frequency);
     },
+    SetRiver(riviere){
+        configurationDescriptor.changeRiviere(riviere);
+    },
+
+    setElevationSlider(elevationSlider){
+        configurationDescriptor.setElevationSlider(elevationSlider);
+    },
+
+    setHumiditeSlider(humiditeSlider){
+        configurationDescriptor.setHumiditeSlider(humiditeSlider);
+    },
+
+    setTemperatureSlider(temperatureSlider){
+        configurationDescriptor.setTemperatureSlider(temperatureSlider);
+    },
+
+
 
     init() {
         noise.seed(Math.random());
         },
 
     async generate() {
+
         let mapDescriptor = await MapDescriptorController.generate();
         View.printTile(mapDescriptor);
     },

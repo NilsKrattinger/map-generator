@@ -2,54 +2,75 @@
 <html lang="fr">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <link href="bootstrap-5.0.0-beta1-dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Map Generator</title>
 </head>
 
 <body>
 
-<div id="drawing-container">
-    <canvas id="drawing-area" width="1500" height="1400"></canvas>
-</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+            <div id="drawing-container">
+                <canvas id="drawing-area" width="1200" height=1000></canvas>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="border-main border-width-3" id="config-panel">
+                <fieldset>
+                    <legend>
+                    Paramètres d'affichage
+                    </legend>
+                    <label>Rows: </label>
+                    <input id="row" type="number" class="form-control w-25 mb-2" name="row" minlength="1" maxlength="8" size="8" min=1 value="119">
+                    <label>Columns: </label>
+                    <input id="columns" type="number" class="form-control w-25 mb-2" name="columns" max="42" size="8" min=1 value="42">
+                    <input id="generate" type="button" class="btn btn-outline-primary" value="Generer"/>
+                </fieldset>
+                <fieldset>
+                    <br><legend>Global Control</legend>
+                    <label>Fréquence :</label>
+                    <input id="frequency" type="range" class="form-control w-75 mb-2" name="freq" min=0 value="2" max="8" step="0.5">
+                    <label>Rivière :</label>
+                    <input id="riverCheckBox" type="checkbox" checked/>
+                </fieldset>
+                <fieldset>
+                    <br><legend>Smoother</legend>
+                    <label class="mt-2">Température :</label>
+                    <input id="temperatureSlider" type="range" class="form-control w-75 mb-2" name="temp" min=0 value="2" max="4" step="0.5">
+                    <label class="mt-2">Elévation :</label>
+                    <input id="elevationSlider" type="range" class="form-control w-75 mb-2" name="elevation" min=0 value="2" max="4" step="0.5">
+                    <label class="mt-2">Humidité :</label>
+                    <input id="humiditeSlider" type="range" class="form-control w-75 mb-2" name="humid" min=0 value="2" max="4" step="0.5">
+                </fieldset>
+                <fieldset>
+                    <br><legend>île</legend>
+                    <label>Ile : </label>
+                    <input id="ileCheckBox" type="checkbox"/>
+                    <label>Litoral : </label>
+                    <input id="lito" type="checkbox" value="false"/>
+                    <br>
+                    <label class="mt-2">Taille île :</label>
+                    <input id="ileSize" type="number" class="form-control w-25 mb-2" name="row" max=100  min=1 value=15>
 
-<div id="config-panel">
-    <fieldset>
-        <legend>
-           Paramètres d'affichage
-        </legend>
-        <input id="generate" type="button" value="Generer"/>
-        <input id="row" type="number" name="row" min="10" max="120" size="8" min=1 value="120">
-        <input id="columns" type="number" name="columns" max="40" size="8" min=1 value="40">
-        <input id="zoom" type="range" min="1" max="3" step="0.1"/>
-    </fieldset>
-    <fieldset>
-        <legend>Global Control</legend>
-        <label>Frequency :</label>
-        <input id="frequency" type="range" name="freq" min=0 value="2" max="8" step="0.5">
-        <label>Ajouter les smoothing</label>
-    </fieldset>
-    <fieldset>
-        <legend>île</legend>
-        <label>Ile : </label>
-        <input id="ileCheckBox" type="checkbox" checked/>
-        <label>Taille ile</label>
-        <input id="ileSize" type="number" max=100  min=1 value=15>
-        <label>Litorale : </label>
-        <input id="lito" type="checkbox" checked/>
-    </fieldset>
-    <fieldset>
-        <legend>Villes</legend>
-        <label>Villes : </label>
-        <input id="villes" type="checkbox" checked/>
-        <label>Frequance : </label>
-        <input id="townFreq" type="range" min="0" max="0.01" step="0.001" value="0.002"/>
+                </fieldset>
+                <fieldset>
+                    <br><legend>Villes</legend>
+                    <label>Villes : </label>
+                    <input id="villes" type="checkbox" value="false"/>
+                    <br>
+                    <label>Fréquence : </label>
+                    <input id="townFreq" type="range" class="form-control w-75 mb-2" min="0" max="0.005" step="0.0001"/>
 
-    </fieldset>
+                </fieldset>
 
-    <fieldset>
-        <legend>Algo</legend>
+                <fieldset>
+                    <br><legend>Algo</legend>
 
-    </fieldset>
+                </fieldset>
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -66,6 +87,7 @@
 <script src="src/townList.js"></script>
 <script src="scripts/view.js"></script>
 <script src="scripts/algos/RiverMaker.js"></script>
+<script src="scripts/model/ConfigurationDescriptor.js"></script>
 
 
 </html>

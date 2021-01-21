@@ -7,7 +7,7 @@ const RivierMaker = {
         list.push(origine)
         while (list.length > 0 && water == undefined) {
             let openTile = list[0];
-            let openTileBiom = data.result.biome[openTile.x][openTile.y];
+            let openTileBiom = data.biome[openTile.x][openTile.y];
 
             if (openTileBiom == BiomEnum.Sea || openTileBiom == BiomEnum.Littoral) {
                 water = openTile;
@@ -35,23 +35,23 @@ const RivierMaker = {
         //Reset des objets du pathFinder
         for (let x = 0; x < data.rowNumber; x++) {
             for (let y = 0; y < data.columnsNumber; y++) {
-                data.result.usedInRiver[x][y] = new Object();
-                data.result.usedInRiver[x][y].f = 0;
-                data.result.usedInRiver[x][y].g = 0;
-                data.result.usedInRiver[x][y].h = 0;
-                data.result.usedInRiver[x][y].content = 1;
-                data.result.usedInRiver[x][y].point = new Point(x, y);
+                data.usedInRiver[x][y] = new Object();
+                data.usedInRiver[x][y].f = 0;
+                data.usedInRiver[x][y].g = 0;
+                data.usedInRiver[x][y].h = 0;
+                data.usedInRiver[x][y].content = 1;
+                data.usedInRiver[x][y].point = new Point(x, y);
 
-                data.result.usedInRiver[x][y].visted = false;
-                data.result.usedInRiver[x][y].closed = false;
-                data.result.usedInRiver[x][y].parent = null;
+                data.usedInRiver[x][y].visted = false;
+                data.usedInRiver[x][y].closed = false;
+                data.usedInRiver[x][y].parent = null;
             }
         }
 
         let openList = [];
 
-        let start = data.result.usedInRiver[p1.x][p1.y];
-        let end = data.result.usedInRiver[p2.x][p2.y];
+        let start = data.usedInRiver[p1.x][p1.y];
+        let end = data.usedInRiver[p2.x][p2.y];
 
         openList.push(start);
 
@@ -68,7 +68,7 @@ const RivierMaker = {
                 let curr = currentNode;
                 let ret = [];
                 while (curr.parent) {
-                    data.result.usedInRiver[curr.point.x][curr.point.y] = 1;
+                    data.usedInRiver[curr.point.x][curr.point.y] = 1;
                     ret.push(curr);
                     curr = curr.parent;
                 }
@@ -81,9 +81,9 @@ const RivierMaker = {
 
             let neighbors = utils.neighbors(currentNode.point, data.rowNumber - 1, data.columnsNumber - 1);
             for (let i = 0; i < neighbors.length; i++) {
-                let neighbor = data.result.usedInRiver[neighbors[i].x][neighbors[i].y];
+                let neighbor = data.usedInRiver[neighbors[i].x][neighbors[i].y];
 
-                let biom = data.result.biome[neighbors[i].x][neighbors[i].y];
+                let biom = data.biome[neighbors[i].x][neighbors[i].y];
                 if (neighbor.closed || biom == BiomEnum.Desert || biom == BiomEnum.Savanna) { // not a valid node to process, skip to next neighbor
                     continue;
                 }
@@ -94,10 +94,10 @@ const RivierMaker = {
 
                 let tileCost = 0;
 
-                if (data.result.usedInRiver[currentNode.point.x][currentNode.point.y] != 1 || biom == BiomEnum.Littoral ) {
-                    if (data.result.elevation[currentNode.point.x][currentNode.point.y] <= 1.5) {
+                if (data.usedInRiver[currentNode.point.x][currentNode.point.y] != 1 || biom == BiomEnum.Littoral ) {
+                    if (data.elevation[currentNode.point.x][currentNode.point.y] <= 1.5) {
                         tileCost = 20;
-                    } else if (data.result.elevation[currentNode.point.x][currentNode.point.y] <= 2) {
+                    } else if (data.elevation[currentNode.point.x][currentNode.point.y] <= 2) {
                         tileCost = 4;
                     } else {
                         tileCost = 3;

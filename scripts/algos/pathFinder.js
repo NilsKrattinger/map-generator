@@ -4,23 +4,23 @@ const pathFinder = {
         //Reset des objets du pathFinder
         for (let x = 0; x < data.rowNumber; x++) {
             for (let y = 0; y < data.columnsNumber; y++) {
-                data.result.pathFinding[x][y] = new Object();
-                data.result.pathFinding[x][y].f = 0;
-                data.result.pathFinding[x][y].g = 0;
-                data.result.pathFinding[x][y].h = 0;
-                data.result.pathFinding[x][y].content = 1;
-                data.result.pathFinding[x][y].point = new Point(x, y);
+                data.pathFinding[x][y] = new Object();
+                data.pathFinding[x][y].f = 0;
+                data.pathFinding[x][y].g = 0;
+                data.pathFinding[x][y].h = 0;
+                data.pathFinding[x][y].content = 1;
+                data.pathFinding[x][y].point = new Point(x, y);
 
-                data.result.pathFinding[x][y].visted = false;
-                data.result.pathFinding[x][y].closed = false;
-                data.result.pathFinding[x][y].parent = null;
+                data.pathFinding[x][y].visted = false;
+                data.pathFinding[x][y].closed = false;
+                data.pathFinding[x][y].parent = null;
             }
         }
 
         let openList = [];
 
-        let start = data.result.pathFinding[p1.x][p1.y];
-        let end = data.result.pathFinding[p2.x][p2.y];
+        let start = data.pathFinding[p1.x][p1.y];
+        let end = data.pathFinding[p2.x][p2.y];
 
         openList.push(start);
 
@@ -37,7 +37,7 @@ const pathFinder = {
                 let curr = currentNode;
                 let ret = [];
                 while (curr.parent) {
-                    data.result.usedInPath[curr.point.x][curr.point.y] = 1;
+                    data.usedInPath[curr.point.x][curr.point.y] = 1;
                     ret.push(curr);
                     curr = curr.parent;
                 }
@@ -50,9 +50,9 @@ const pathFinder = {
 
             let neighbors = utils.neighbors(currentNode.point, data.rowNumber - 1, data.columnsNumber - 1);
             for (let i = 0; i < neighbors.length; i++) {
-                let neighbor = data.result.pathFinding[neighbors[i].x][neighbors[i].y];
+                let neighbor = data.pathFinding[neighbors[i].x][neighbors[i].y];
 
-                let biom = data.result.biome[neighbors[i].x][neighbors[i].y];
+                let biom = data.biome[neighbors[i].x][neighbors[i].y];
                 if (neighbor.closed || biom == BiomEnum.Sea || biom == BiomEnum.Littoral) { // not a valid node to process, skip to next neighbor
                     continue;
                 }
@@ -61,12 +61,12 @@ const pathFinder = {
                 //defined the G by bioms
                 //if the tiles is already used in path cost should be 0 for visual rendering
 
-                let tileCost = 0;
+                let tileCost = 0.5;
 
-                if (data.result.usedInPath[currentNode.point.x][currentNode.point.y] != 1) {
-                    if (data.result.elevation[currentNode.point.x][currentNode.point.y] <= 1.5) {
+                if (data.usedInPath[currentNode.point.x][currentNode.point.y] != 1) {
+                    if (data.elevation[currentNode.point.x][currentNode.point.y] <= 1.5) {
                         tileCost = 9;
-                    } else if (data.result.elevation[currentNode.point.x][currentNode.point.y] <= 2) {
+                    } else if (data.elevation[currentNode.point.x][currentNode.point.y] <= 2) {
                         tileCost = 5;
                     } else {
                         tileCost = 3;
@@ -75,7 +75,7 @@ const pathFinder = {
 
                 }
 
-                let gScore = currentNode.g + tileCost; // 1 is the distance from a node to it's neighbor
+                let gScore = currentNode.g + tileCost;
                 let gScoreIsBest = false;
 
                 if (!neighbor.visited) {
