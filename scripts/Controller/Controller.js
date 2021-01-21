@@ -34,6 +34,19 @@ const Controller = {
         MapDescriptor.changeRiviere(riviere);
     },
 
+    setElevationSlider(elevationSlider){
+        MapDescriptor.setElevationSlider(elevationSlider);
+    },
+
+    setHumiditeSlider(humiditeSlider){
+        MapDescriptor.setHumiditeSlider(humiditeSlider);
+    },
+
+    setTemperatureSlider(temperatureSlider){
+        MapDescriptor.setTemperatureSlider(temperatureSlider);
+    },
+
+
 
     init(row, columns, frequency) {
         MapDescriptor.changeNbRow(row);

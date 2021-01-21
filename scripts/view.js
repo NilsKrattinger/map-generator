@@ -11,6 +11,9 @@ const View = {
     canvasZoomSlider: undefined,
 
     elevationFrequencySlider: undefined,
+    temperatureSlider: undefined,
+    elevationSlider: undefined,
+    humiditeSlider: undefined,
 
     ileCheckBox : undefined,
     ileSize : undefined,
@@ -35,6 +38,9 @@ const View = {
         Controller.changeTowns(this.townCheckBox.checked);
         Controller.changeIleLito(this.ileLitCheckBox.checked);
         Controller.changeRiviere(this.riverCheckBox.checked);
+        Controller.setElevationSlider(this.elevationSlider.value);
+        Controller.setHumiditeSlider(this.humiditeSlider.value);
+        Controller.setTemperatureSlider(this.temperatureSlider.value);
         Controller.generate().catch(r => alert("Erreur lors de l'execution" + r));
 
     },
@@ -79,6 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     View.columnField = document.getElementById('columns');
     View.rowField = document.getElementById('row');
     View.elevationFrequencySlider = document.getElementById('frequency');
+    View.temperatureSlider = document.getElementById('temperatureSlider');
+    View.elevationSlider = document.getElementById('elevationSlider');
+    View.humiditeSlider = document.getElementById('humiditeSlider');
     View.ileCheckBox = document.getElementById('ileCheckBox');
     View.ileSize = document.getElementById('ileSize');
     View.ileLitCheckBox = document.getElementById('lito');
@@ -90,6 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('row').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('columns').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('frequency').addEventListener("input", View.onUpdateParam.bind(View));
+    document.getElementById('temperatureSlider').addEventListener("input", View.onUpdateParam.bind(View));
+    document.getElementById('elevationSlider').addEventListener("input", View.onUpdateParam.bind(View));
+    document.getElementById('humiditeSlider').addEventListener("input", View.onUpdateParam.bind(View));
     document.getElementById('ileCheckBox').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('ileSize').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('lito').addEventListener('change', View.onUpdateParam.bind(View));

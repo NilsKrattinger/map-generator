@@ -7,6 +7,9 @@ const MapDescriptor = {
     Lito : undefined,
     towns : undefined,
     riviere : undefined,
+    temperatureSlider : undefined,
+    humiditeSlider : undefined,
+    elevationSlider : undefined,
     result: {},
 
     changeNbColumn(nbColumn) {
@@ -37,6 +40,18 @@ const MapDescriptor = {
     
     changeRiviere(riviere){
         this.riviere = riviere;
+    },
+
+    setElevationSlider(elevationSlider){
+        this.elevationSlider = elevationSlider;
+    },
+
+    setHumiditeSlider(humiditeSlider){
+        this.humiditeSlider=humiditeSlider;
+    },
+
+    setTemperatureSlider(temperatureSlider){
+        this.temperatureSlider=temperatureSlider;
     },
 
     getResult(){
