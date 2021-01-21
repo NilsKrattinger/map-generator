@@ -9,7 +9,7 @@
 <body>
 
 <div id="drawing-container">
-    <canvas id="drawing-area" width="2000" height="2000"></canvas>
+    <canvas id="drawing-area" width="1500" height="1400"></canvas>
 </div>
 
 <div id="config-panel">
@@ -18,8 +18,8 @@
            Paramètres d'affichage
         </legend>
         <input id="generate" type="button" value="Generer"/>
-        <input id="row" type="number" name="row" minlength="1" maxlength="8" size="8" min=1 value="200">
-        <input id="columns" type="number" name="columns" minlength="1" maxlength="8" size="8" min=1 value="60">
+        <input id="row" type="number" name="row" min="10" max="120" size="8" min=1 value="120">
+        <input id="columns" type="number" name="columns" max="40" size="8" min=1 value="40">
         <input id="zoom" type="range" min="1" max="3" step="0.1"/>
     </fieldset>
     <fieldset>
@@ -31,18 +31,18 @@
     <fieldset>
         <legend>île</legend>
         <label>Ile : </label>
-        <input id="ileCheckBox" type="checkbox"/>
+        <input id="ileCheckBox" type="checkbox" checked/>
         <label>Taille ile</label>
-        <input id="ileSize" type="number" name="row" max=100  min=1 value=20>
+        <input id="ileSize" type="number" max=100  min=1 value=15>
         <label>Litorale : </label>
-        <input id="lito" type="checkbox" value="false"/>
+        <input id="lito" type="checkbox" checked/>
     </fieldset>
     <fieldset>
         <legend>Villes</legend>
         <label>Villes : </label>
-        <input id="villes" type="checkbox" value="false"/>
+        <input id="villes" type="checkbox" checked/>
         <label>Frequance : </label>
-        <input id="townFreq" type="range" min="0" max="1" step="0.01"/>
+        <input id="townFreq" type="range" min="0" max="0.01" step="0.001" value="0.002"/>
 
     </fieldset>
 
@@ -54,14 +54,18 @@
 </div>
 
 </body>
-<script src="scripts/view.js"></script>
+
+<script src="scripts/algos/perlin.js"></script>
+<script src="scripts/algos/pathfinder.js">  </script>
+<script src="scripts/model/MapDescriptor.js"></script>
 <script src="scripts/Controller/Controller.js"></script>
 <script src="scripts/model/class.js"></script>
-<script src="scripts/algos/perlin.js"></script>
-<script src="scripts/model/MapDescriptor.js"></script>
 <script src="scripts/Controller/MapDescriptorContorller.js"></script>
 <script src="scripts/utils.js"></script>
 <script src="src/liste_tuile.js"></script>
+<script src="src/townList.js"></script>
+<script src="scripts/view.js"></script>
+<script src="scripts/algos/RiverMaker.js"></script>
 
 
 </html>

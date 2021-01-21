@@ -1,5 +1,5 @@
 const Controller = {
-
+    //
     changeNbRow(nbRow) {
         MapDescriptor.changeNbRow(nbRow);
     },
@@ -14,7 +14,7 @@ const Controller = {
 
     changeIle(ile) {
         MapDescriptor.changeIle(ile);
-        console.log(MapDescriptor);
+        (MapDescriptor);
 
     },
 
@@ -30,18 +30,13 @@ const Controller = {
         MapDescriptor.changeTowns(towns);
     },
 
+    changeTownsFrequency(frequency){
+        MapDescriptor.changeTownsFrequency(frequency);
+    },
 
-    init(row, columns, frequency) {
-        MapDescriptor.changeNbRow(row);
-        MapDescriptor.changeNbColumn(columns);
-        MapDescriptor.changeFrequency(frequency);
+    init() {
         noise.seed(Math.random());
-
-        this.generate().catch(r => alert("Erreur : " + r));
-    },
-
-    canvasZoom(scale) {
-    },
+        },
 
     async generate() {
         let mapDescriptor = await MapDescriptorController.generate();

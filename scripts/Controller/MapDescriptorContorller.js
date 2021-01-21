@@ -11,11 +11,9 @@ const MapDescriptorController = {
             await this.islender(MapDescriptor.result.moisture, MapDescriptor, MapDescriptor.ileSize, 4)
         }
 
-
-
         await this.smoother(MapDescriptor.result.heat, MapDescriptor, 3);
-        await this.smoother(MapDescriptor.result.elevation, MapDescriptor, 1);
-        await this.smoother(MapDescriptor.result.moisture, MapDescriptor, 1);
+        await this.smoother(MapDescriptor.result.elevation, MapDescriptor, 0);
+        await this.smoother(MapDescriptor.result.moisture, MapDescriptor, 2);
 
         await this.generateBiomAlgo1(MapDescriptor);
 
@@ -25,25 +23,51 @@ const MapDescriptorController = {
         await this.smoother(MapDescriptor.result.heat, MapDescriptor, 1);
         await this.smoother(MapDescriptor.result.moisture, MapDescriptor, 1);
 
-        await this.snowCheck(MapDescriptor);
 
         if (MapDescriptor.Lito) {
+
+            await this.plageMaker(MapDescriptor);
             await this.litoMaker(MapDescriptor);
+
         }
+
+        await this.snowCheck(MapDescriptor);
+
 
         await this.holeFixer(MapDescriptor);
 
 
         await this.SetTileList(MapDescriptor);
 
+
         if (MapDescriptor.towns) {
-            await this.townPlacment(MapDescriptor, 0.002);
+            await this.townPlacment(MapDescriptor, MapDescriptor.townsFrequency);
+            await this.nameTown(MapDescriptor);
         }
 
+        if (MapDescriptor.result.towns.length >= 2) {
+            let j = 0;
+            for (let i = 0; i < MapDescriptor.result.towns.length; i++) {
+                for (let k = j; k < MapDescriptor.result.towns.length; k++) {
+                    let path = await (pathfinder.pathfinder(MapDescriptor, MapDescriptor.result.towns[i], MapDescriptor.result.towns[k])).slice();
+                    MapDescriptor.result.foundedPath.push(path);
+                }
+                j++;
+            }
+        }
+
+        await this.SourcesPlacment(MapDescriptor, 0.002);
+        for (let i = 0; i < MapDescriptor.result.sources.length; i++) {
+            let end = await RivierMaker.waterFinder(MapDescriptor, MapDescriptor.result.sources[i]);
+            let riviere = await (RivierMaker.pathfinderForRivier(MapDescriptor, end, MapDescriptor.result.sources[i])).slice();
+            if (riviere) {
+                MapDescriptor.result.foundedRiver.push(riviere);
+            }
+
+        }
         return MapDescriptor;
-
-
     },
+
 
     async generateElevation(data) {
         for (let y = 0; y < data.nbColumns; y++) {
@@ -107,7 +131,7 @@ const MapDescriptorController = {
 
     },
 
-    async litoMaker(data) {
+    async plageMaker(data) {
         for (let y = 0; y < data.nbColumns; y++) {
             for (let x = 0; x < data.nbRows; x++) {
                 let neightbourBiom = new Set();
@@ -116,8 +140,27 @@ const MapDescriptorController = {
                     neightbourBiom.add(data.result.biome[item.x][item.y]);
                 });
 
-                if (neightbourBiom.has(BiomEnum.Sea) && (neightbourBiom.has(BiomEnum.Plaine) || neightbourBiom.has(BiomEnum.Snow))) {
-                    data.result.biome[x][y] = BiomEnum.Desert;
+                if (neightbourBiom.has(BiomEnum.Sea) && ((neightbourBiom.has(BiomEnum.Plaine) || neightbourBiom.has(BiomEnum.Desert) || neightbourBiom.has(BiomEnum.Snow)))) {
+                    data.result.biome[x][y] = BiomEnum.beach;
+                    data.result.elevation[x][y] = 2;
+                }
+            }
+        }
+
+    },
+
+    async litoMaker(data) {
+        for (let y = 0; y < data.nbColumns; y++) {
+            for (let x = 0; x < data.nbRows; x++) {
+                let neightbourBiom = new Set();
+                let neightbour = utils.neighbour(new Point(x, y), data.nbRows, data.nbColumns);
+
+                neightbour.forEach(function (item, index, array) {
+                    neightbourBiom.add(data.result.biome[item.x][item.y]);
+                });
+
+                if (data.result.biome[x][y] != BiomEnum.beach && neightbourBiom.has(BiomEnum.Sea) && (neightbourBiom.has(BiomEnum.Plaine) || neightbourBiom.has(BiomEnum.Snow) || neightbourBiom.has(BiomEnum.Desert) || neightbourBiom.has(BiomEnum.beach) || neightbourBiom.has(BiomEnum.Savanne))) {
+                    data.result.biome[x][y] = BiomEnum.litoral;
                     data.result.elevation[x][y] = 2;
                 }
             }
@@ -143,14 +186,12 @@ const MapDescriptorController = {
 
     },
 
-
     async smoother(layer, data, occ) {
         for (let i = 0; i < occ; i++) {
             for (let y = 0; y < data.nbColumns; y++) {
                 for (let x = 0; x < data.nbRows; x++) {
 
                     let neighbour = utils.neighbour(new Point(x, y), data.nbRows, data.nbColumns);
-
                     layer[x][y] = await utils.avgArray(neighbour, layer);
 
                 }
@@ -162,7 +203,7 @@ const MapDescriptorController = {
         for (let y = 0; y < data.nbColumns; y++) {
             for (let x = 0; x < data.nbRows; x++) {
 
-                let distance = utils.distancePoint(new Point(x, y), new Point(data.nbRows / 2, data.nbColumns / 2));
+                let distance = utils.distancePointByRand(new Point(x, y), new Point(data.nbRows / 2, data.nbColumns / 2));
 
                 if (distance > k) {
                     layer[x][y] = v;
@@ -182,6 +223,18 @@ const MapDescriptorController = {
         }
     },
 
+    async nameTown(data) {
+        let nameList = town_name.slice();
+        for (let i = 0; i < data.result.towns.length; i++) {
+
+            let index = utils.getRandomInt(nameList.length);
+            data.result.townsName.push(nameList[index]);
+            nameList.splice(index, 1);
+        }
+        (data.result.townsName);
+    },
+
+
     async townPlacment(data, freq) {
         for (let y = 0; y < data.nbColumns; y++) {
             for (let x = 0; x < data.nbRows; x++) {
@@ -191,6 +244,7 @@ const MapDescriptorController = {
                     switch (biome) {
                         case BiomEnum.Desert:
                         case BiomEnum.Savanne:
+                        case BiomEnum.beach :
                             tile = desert_town[utils.getRandomInt(desert_town.length)];
                             break;
                         case BiomEnum.Plaine:
@@ -199,10 +253,24 @@ const MapDescriptorController = {
                         case BiomEnum.Snow:
                             tile = snow_town[utils.getRandomInt(plain_town.length)];
                             break;
+                        case BiomEnum.litoral:
+                            tile = litoral_town[utils.getRandomInt(litoral_town.length)];
+                            break;
                     }
                     data.result.tile[x][y] = tile;
                     data.result.towns.push(new Point(x, y));
 
+                }
+            }
+        }
+    },
+
+    async SourcesPlacment(data, freq) {
+        for (let y = 0; y < data.nbColumns; y++) {
+            for (let x = 0; x < data.nbRows; x++) {
+                let biome = data.result.biome[x][y];
+                if (Math.random() < freq && biome != BiomEnum.Desert && biome != BiomEnum.Sea && biome != BiomEnum.litoral) {
+                    data.result.sources.push(new Point(x, y));
                 }
             }
         }
@@ -316,7 +384,6 @@ const MapDescriptorController = {
     async findTile(biome, altitude) {
 
         let tile;
-
         switch (biome) {
             case BiomEnum.Desert :
                 switch (true) {
@@ -331,10 +398,24 @@ const MapDescriptorController = {
                         tile = desert_montagne[utils.getRandomInt(desert_montagne.length)];
                         break;
                 }
+
+
                 break
             case BiomEnum.Sea :
-                tile = new Point(6, 1)
-                break
+                tile = sea_normal[0];
+
+
+                break;
+            case BiomEnum.litoral :
+                tile = litoral_normal[0];
+
+
+                break;
+            case BiomEnum.beach :
+                tile = beach_normal[utils.getRandomInt(beach_normal.length)];
+
+
+                break;
             case BiomEnum.Savanne :
                 switch (true) {
 
@@ -348,6 +429,8 @@ const MapDescriptorController = {
                         tile = savane_montagne[utils.getRandomInt(savane_montagne.length)];
                         break;
                 }
+
+
                 break;
 
             case BiomEnum.Snow :
@@ -356,13 +439,15 @@ const MapDescriptorController = {
                     case altitude >= 2  :
                         tile = neige_normal[utils.getRandomInt(neige_normal.length)];
                         break;
-                    case altitude >= 1 && altitude < 2 :
+                    case altitude >= 1.5 && altitude < 2 :
                         tile = neige_colline[utils.getRandomInt(neige_colline.length)];
                         break;
-                    case altitude < 1 :
+                    case altitude < 1.5 :
                         tile = neige_montagne[utils.getRandomInt(neige_montagne.length)];
                         break;
                 }
+
+
                 break;
             case BiomEnum.Plaine :
                 switch (true) {
@@ -377,8 +462,12 @@ const MapDescriptorController = {
                         tile = plaine_montagne[utils.getRandomInt(plaine_montagne.length)];
                         break;
                 }
+
+
                 break;
         }
+
+
         return tile;
     }
     ,
