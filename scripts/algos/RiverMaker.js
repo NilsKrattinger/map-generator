@@ -12,7 +12,7 @@ const RivierMaker = {
             if (openTileBiom == BiomEnum.Sea || openTileBiom == BiomEnum.litoral) {
                 water = openTile;
             } else {
-                let voisin = utils.neighbour(openTile, data.nbRows, data.nbColumns);
+                let voisin = utils.neighbors(openTile, data.rowNumber, data.columnsNumber);
                 let distanceOpenTile = utils.distancePoint(openTile, origine);
                 for (let i = 0; i < voisin.length; i++) {
                     if (utils.distancePoint(voisin[i], origine) > distanceOpenTile) {
@@ -33,8 +33,8 @@ const RivierMaker = {
     pathfinderForRivier(data, p1, p2) {
 
         //Reset des objets du pathFinder
-        for (let x = 0; x < data.nbRows; x++) {
-            for (let y = 0; y < data.nbColumns; y++) {
+        for (let x = 0; x < data.rowNumber; x++) {
+            for (let y = 0; y < data.columnsNumber; y++) {
                 data.result.usedInRiver[x][y] = new Object();
                 data.result.usedInRiver[x][y].f = 0;
                 data.result.usedInRiver[x][y].g = 0;
@@ -79,7 +79,7 @@ const RivierMaker = {
             openList.remove(lowInd);
             currentNode.closed = true;
 
-            let neighbors = utils.neighbour(currentNode.point, data.nbRows - 1, data.nbColumns - 1);
+            let neighbors = utils.neighbors(currentNode.point, data.rowNumber - 1, data.columnsNumber - 1);
             for (let i = 0; i < neighbors.length; i++) {
                 let neighbor = data.result.usedInRiver[neighbors[i].x][neighbors[i].y];
 

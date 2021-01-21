@@ -28,14 +28,14 @@ const View = {
 
     // ** Listeners du changement d'un paramettre.
     onUpdateParam() {
-        Controller.changeNbRow(this.rowField.value);
-        Controller.changeNbColumn(this.columnField.value);
-        Controller.changeFrequency(this.elevationFrequencySlider.value);
-        Controller.changeIle(this.ileCheckBox.checked);
-        Controller.changeIleSize(this.ileSize.value);
-        Controller.changeTowns(this.townCheckBox.checked);
-        Controller.changeTownsFrequency(this.townFrequency.value);
-        Controller.changeIleLito(this.ileLitCheckBox.checked);
+        Controller.setNbRow(this.rowField.value);
+        Controller.setNbColumn(this.columnField.value);
+        Controller.setelevationFrequency(this.elevationFrequencySlider.value);
+        Controller.setIle(this.ileCheckBox.checked);
+        Controller.setIleSize(this.ileSize.value);
+        Controller.setTowns(this.townCheckBox.checked);
+        Controller.setTownsFrequency(this.townFrequency.value);
+        Controller.setIleLito(this.ileLitCheckBox.checked);
 
         Controller.generate();
     },
@@ -56,21 +56,21 @@ const View = {
             .then(() => {
                 CnvCtx.clearRect(0, 0, CnvCtx.canvas.width, CnvCtx.canvas.height);
                 CnvCtx.scale(0.5, 0.5);
-                for (let y = 0; y < tileMap.nbRows; y++) {
-                    for (let x = 0; x < tileMap.nbColumns; x++) {
+                for (let y = 0; y < tileMap.rowNumber; y++) {
+                    for (let x = 0; x < tileMap.columnsNumber; x++) {
                         let posx = x * 48;
                         if (y % 2 == 0) {
                             posx += 24;
                         }
-                        CnvCtx.drawImage(HEXTILES_IMAGE, utils.getPointOnImage(tileMap.result.tile[y][x]).x, utils.getPointOnImage(tileMap.result.tile[y][x]).y, 32, 48, posx, 14 * y, 32, 48);
+                        CnvCtx.drawImage(HEXTILES_IMAGE, utils.tileToPixel(tileMap.result.tile[y][x]).x, utils.tileToPixel(tileMap.result.tile[y][x]).y, 32, 48, posx, 14 * y, 32, 48);
                     }
                 }
 
 
-                // ** Display towns name
-                for (let i = 0; i < tileMap.result.towns.length; i++) {
-                    let town = tileMap.result.towns[i];
-                    let townName = tileMap.result.townsName[i];
+                // ** Display haveTowns name
+                for (let i = 0; i < tileMap.result.haveTowns.length; i++) {
+                    let town = tileMap.result.haveTowns[i];
+                    let townName = tileMap.result.townsNames[i];
                     (town);
 
                     let posx = town.y * 48;

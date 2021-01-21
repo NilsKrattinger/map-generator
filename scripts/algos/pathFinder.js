@@ -1,26 +1,26 @@
-const pathfinder = {
+const pathFinder = {
     pathfinder(data, p1, p2) {
 
         //Reset des objets du pathFinder
-        for (let x = 0; x < data.nbRows; x++) {
-            for (let y = 0; y < data.nbColumns; y++) {
-                data.result.pathfinding[x][y] = new Object();
-                data.result.pathfinding[x][y].f = 0;
-                data.result.pathfinding[x][y].g = 0;
-                data.result.pathfinding[x][y].h = 0;
-                data.result.pathfinding[x][y].content = 1;
-                data.result.pathfinding[x][y].point = new Point(x, y);
+        for (let x = 0; x < data.rowNumber; x++) {
+            for (let y = 0; y < data.columnsNumber; y++) {
+                data.result.pathFinding[x][y] = new Object();
+                data.result.pathFinding[x][y].f = 0;
+                data.result.pathFinding[x][y].g = 0;
+                data.result.pathFinding[x][y].h = 0;
+                data.result.pathFinding[x][y].content = 1;
+                data.result.pathFinding[x][y].point = new Point(x, y);
 
-                data.result.pathfinding[x][y].visted = false;
-                data.result.pathfinding[x][y].closed = false;
-                data.result.pathfinding[x][y].parent = null;
+                data.result.pathFinding[x][y].visted = false;
+                data.result.pathFinding[x][y].closed = false;
+                data.result.pathFinding[x][y].parent = null;
             }
         }
 
         let openList = [];
 
-        let start = data.result.pathfinding[p1.x][p1.y];
-        let end = data.result.pathfinding[p2.x][p2.y];
+        let start = data.result.pathFinding[p1.x][p1.y];
+        let end = data.result.pathFinding[p2.x][p2.y];
 
         openList.push(start);
 
@@ -48,9 +48,9 @@ const pathfinder = {
             openList.remove(lowInd);
             currentNode.closed = true;
 
-            let neighbors = utils.neighbour(currentNode.point, data.nbRows - 1, data.nbColumns - 1);
+            let neighbors = utils.neighbors(currentNode.point, data.rowNumber - 1, data.columnsNumber - 1);
             for (let i = 0; i < neighbors.length; i++) {
-                let neighbor = data.result.pathfinding[neighbors[i].x][neighbors[i].y];
+                let neighbor = data.result.pathFinding[neighbors[i].x][neighbors[i].y];
 
                 let biom = data.result.biome[neighbors[i].x][neighbors[i].y];
                 if (neighbor.closed || biom == BiomEnum.Sea || biom == BiomEnum.litoral) { // not a valid node to process, skip to next neighbor

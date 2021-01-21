@@ -6,7 +6,7 @@ const MapDescriptorController = {
         await this.generateTemperature(MapDescriptor);
         await this.generateMoisture(MapDescriptor);
 
-        if (MapDescriptor.ile) {
+        if (MapDescriptor.haveIle) {
             await this.islender(MapDescriptor.result.heat, MapDescriptor, MapDescriptor.ileSize, 0)
             await this.islender(MapDescriptor.result.moisture, MapDescriptor, MapDescriptor.ileSize, 4)
         }
@@ -24,7 +24,7 @@ const MapDescriptorController = {
         await this.smoother(MapDescriptor.result.moisture, MapDescriptor, 1);
 
 
-        if (MapDescriptor.Lito) {
+        if (MapDescriptor.haveLittoral) {
 
             await this.plageMaker(MapDescriptor);
             await this.litoMaker(MapDescriptor);
@@ -40,16 +40,16 @@ const MapDescriptorController = {
         await this.SetTileList(MapDescriptor);
 
 
-        if (MapDescriptor.towns) {
+        if (MapDescriptor.haveTowns) {
             await this.townPlacment(MapDescriptor, MapDescriptor.townsFrequency);
             await this.nameTown(MapDescriptor);
         }
 
-        if (MapDescriptor.result.towns.length >= 2) {
+        if (MapDescriptor.result.haveTowns.length >= 2) {
             let j = 0;
-            for (let i = 0; i < MapDescriptor.result.towns.length; i++) {
-                for (let k = j; k < MapDescriptor.result.towns.length; k++) {
-                    let path = await (pathfinder.pathfinder(MapDescriptor, MapDescriptor.result.towns[i], MapDescriptor.result.towns[k])).slice();
+            for (let i = 0; i < MapDescriptor.result.haveTowns.length; i++) {
+                for (let k = j; k < MapDescriptor.result.haveTowns.length; k++) {
+                    let path = await (pathFinder.pathfinder(MapDescriptor, MapDescriptor.result.haveTowns[i], MapDescriptor.result.haveTowns[k])).slice();
                     MapDescriptor.result.foundedPath.push(path);
                 }
                 j++;
@@ -70,19 +70,19 @@ const MapDescriptorController = {
 
 
     async generateElevation(data) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
 
                 let nx = y;
                 let ny = x;
-                data.result.elevation[x][y] = ((noise.simplex(data.frequency * nx, MapDescriptor.frequency * ny) + 1) * 2);
+                data.result.elevation[x][y] = ((noise.simplex(data.elevationFrequency * nx, MapDescriptor.elevationFrequency * ny) + 1) * 2);
             }
         }
     },
 
     async generateTemperature(data) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
 
                 let nx = x / 60;
                 let ny = y / 60;
@@ -93,8 +93,8 @@ const MapDescriptorController = {
     },
 
     async generateMoisture(data) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
                 let nx = x / 5;
                 let ny = y / 5;
 
@@ -104,8 +104,8 @@ const MapDescriptorController = {
     },
 
     async generateBiomAlgo1(data) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
                 data.result.biome[x][y] = await this.biomeFinder(data.result.heat[x][y], data.result.moisture[x][y]);
             }
         }
@@ -114,10 +114,10 @@ const MapDescriptorController = {
 
 
     async holeFixer(data) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
                 let neightbourBiom = new Set();
-                let neightbour = utils.neighbour(new Point(x, y), data.nbRows, data.nbColumns);
+                let neightbour = utils.neighbors(new Point(x, y), data.rowNumber, data.columnsNumber);
                 neightbour.forEach(function (item, index, array) {
                     neightbourBiom.add((data.result.biome[item.x][item.y]).toString());
                 });
@@ -132,10 +132,10 @@ const MapDescriptorController = {
     },
 
     async plageMaker(data) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
                 let neightbourBiom = new Set();
-                let neightbour = utils.neighbour(new Point(x, y), data.nbRows, data.nbColumns);
+                let neightbour = utils.neighbors(new Point(x, y), data.rowNumber, data.columnsNumber);
                 neightbour.forEach(function (item, index, array) {
                     neightbourBiom.add(data.result.biome[item.x][item.y]);
                 });
@@ -150,10 +150,10 @@ const MapDescriptorController = {
     },
 
     async litoMaker(data) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
                 let neightbourBiom = new Set();
-                let neightbour = utils.neighbour(new Point(x, y), data.nbRows, data.nbColumns);
+                let neightbour = utils.neighbors(new Point(x, y), data.rowNumber, data.columnsNumber);
 
                 neightbour.forEach(function (item, index, array) {
                     neightbourBiom.add(data.result.biome[item.x][item.y]);
@@ -169,10 +169,10 @@ const MapDescriptorController = {
     },
 
     async snowCheck(data) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
                 let neightbourBiom = new Set();
-                let neightbour = utils.neighbour(new Point(x, y), data.nbRows, data.nbColumns);
+                let neightbour = utils.neighbors(new Point(x, y), data.rowNumber, data.columnsNumber);
                 neightbour.forEach(function (item, index, array) {
                     neightbourBiom.add(data.result.biome[item.x][item.y]);
                 });
@@ -188,11 +188,11 @@ const MapDescriptorController = {
 
     async smoother(layer, data, occ) {
         for (let i = 0; i < occ; i++) {
-            for (let y = 0; y < data.nbColumns; y++) {
-                for (let x = 0; x < data.nbRows; x++) {
+            for (let y = 0; y < data.columnsNumber; y++) {
+                for (let x = 0; x < data.rowNumber; x++) {
 
-                    let neighbour = utils.neighbour(new Point(x, y), data.nbRows, data.nbColumns);
-                    layer[x][y] = await utils.avgArray(neighbour, layer);
+                    let neighbors = utils.neighbors(new Point(x, y), data.rowNumber, data.columnsNumber);
+                    layer[x][y] = await utils.avgArray(neighbors, layer);
 
                 }
             }
@@ -200,10 +200,10 @@ const MapDescriptorController = {
     },
 
     async islender(layer, data, k, v) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
 
-                let distance = utils.distancePointByRand(new Point(x, y), new Point(data.nbRows / 2, data.nbColumns / 2));
+                let distance = utils.distancePointByRand(new Point(x, y), new Point(data.rowNumber / 2, data.columnsNumber / 2));
 
                 if (distance > k) {
                     layer[x][y] = v;
@@ -214,8 +214,8 @@ const MapDescriptorController = {
     },
 
     async SetTileList(data) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
 
                 data.result.tile[x][y] = await this.findTile(data.result.biome[x][y], data.result.elevation[x][y]);
 
@@ -225,19 +225,19 @@ const MapDescriptorController = {
 
     async nameTown(data) {
         let nameList = town_name.slice();
-        for (let i = 0; i < data.result.towns.length; i++) {
+        for (let i = 0; i < data.result.haveTowns.length; i++) {
 
             let index = utils.getRandomInt(nameList.length);
-            data.result.townsName.push(nameList[index]);
+            data.result.townsNames.push(nameList[index]);
             nameList.splice(index, 1);
         }
-        (data.result.townsName);
+        (data.result.townsNames);
     },
 
 
     async townPlacment(data, freq) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
                 let biome = data.result.biome[x][y];
                 let tile;
                 if (Math.random() < freq && biome != BiomEnum.Sea) {
@@ -258,7 +258,7 @@ const MapDescriptorController = {
                             break;
                     }
                     data.result.tile[x][y] = tile;
-                    data.result.towns.push(new Point(x, y));
+                    data.result.haveTowns.push(new Point(x, y));
 
                 }
             }
@@ -266,8 +266,8 @@ const MapDescriptorController = {
     },
 
     async SourcesPlacment(data, freq) {
-        for (let y = 0; y < data.nbColumns; y++) {
-            for (let x = 0; x < data.nbRows; x++) {
+        for (let y = 0; y < data.columnsNumber; y++) {
+            for (let x = 0; x < data.rowNumber; x++) {
                 let biome = data.result.biome[x][y];
                 if (Math.random() < freq && biome != BiomEnum.Desert && biome != BiomEnum.Sea && biome != BiomEnum.litoral) {
                     data.result.sources.push(new Point(x, y));
