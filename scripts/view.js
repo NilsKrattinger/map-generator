@@ -15,6 +15,7 @@ const View = {
     ileCheckBox : undefined,
     ileSize : undefined,
     ileLitCheckBox : undefined,
+    riverCheckBox : undefined,
 
     townCheckBox : undefined,
 
@@ -33,6 +34,7 @@ const View = {
         Controller.changeIleSize(this.ileSize.value);
         Controller.changeTowns(this.townCheckBox.checked);
         Controller.changeIleLito(this.ileLitCheckBox.checked);
+        Controller.changeRiviere(this.riverCheckBox.checked);
         Controller.generate().catch(r => alert("Erreur lors de l'execution" + r));
 
     },
@@ -81,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     View.ileSize = document.getElementById('ileSize');
     View.ileLitCheckBox = document.getElementById('lito');
     View.townCheckBox = document.getElementById('villes');
+    View.riverCheckBox = document.getElementById('riverCheckBox')
 
 
     document.getElementById('generate').addEventListener('click', View.onUpdateGenerate.bind(View));
@@ -91,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ileSize').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('lito').addEventListener('change', View.onUpdateParam.bind(View));
     document.getElementById('villes').addEventListener('change', View.onUpdateParam.bind(View));
+    document.getElementById('riverCheckBox').addEventListener('change', View.onUpdateParam.bind(View));
 
 
 

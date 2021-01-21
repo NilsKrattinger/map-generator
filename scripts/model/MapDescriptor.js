@@ -6,6 +6,7 @@ const MapDescriptor = {
     ileSize : undefined,
     Lito : undefined,
     towns : undefined,
+    riviere : undefined,
     result: {},
 
     changeNbColumn(nbColumn) {
@@ -32,6 +33,10 @@ const MapDescriptor = {
 
     changeTowns(towns){
         this.towns = towns;
+    },
+    
+    changeRiviere(riviere){
+        this.riviere = riviere;
     },
 
     getResult(){

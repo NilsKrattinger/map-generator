@@ -30,6 +30,10 @@ const Controller = {
         MapDescriptor.changeTowns(towns);
     },
 
+    changeRiviere(riviere){
+        MapDescriptor.changeRiviere(riviere);
+    },
+
 
     init(row, columns, frequency) {
         MapDescriptor.changeNbRow(row);

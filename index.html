@@ -22,37 +22,43 @@
                     Paramètres d'affichage
                     </legend>
                     <label>Rows: </label>
-                    <input id="row" type="number" name="row" minlength="1" maxlength="8" size="8" min=1 value="200">
+                    <input id="row" type="number" class="form-control w-25 mb-2" name="row" minlength="1" maxlength="8" size="8" min=1 value="200">
                     <label>Columns: </label>
-                    <input id="columns" type="number" name="columns" max="40" size="8" min=1 value="40">
-                    <br><br><input id="generate" type="button" class="btn btn-outline-primary" value="Generer"/>
+                    <input id="columns" type="number" class="form-control w-25 mb-2" name="columns" max="40" size="8" min=1 value="40">
+                    <input id="generate" type="button" class="btn btn-outline-primary" value="Generer"/>
                 </fieldset>
                 <fieldset>
-                    <legend>Global Control</legend>
-                    <label>Frequency :</label>
-                    <input id="frequency" type="range" name="freq" min=0 value="2" max="8" step="0.5">
+                    <br><legend>Global Control</legend>
+                    <label>Fréquence :</label>
+                    <input id="frequency" type="range" class="form-control w-75 mb-2" name="freq" min=0 value="2" max="8" step="0.5">
+                    <label>Rivière :</label>
+                    <input id="riverCheckBox" type="checkbox" checked/>
+                    <br>
                     <label>Ajouter les smoothing</label>
                 </fieldset>
                 <fieldset>
-                    <legend>île</legend>
+                    <br><legend>île</legend>
                     <label>Ile : </label>
                     <input id="ileCheckBox" type="checkbox"/>
-                    <label>Taille île</label>
-                    <input id="ileSize" type="number" name="row" max=100  min=1 value=15>
-                    <label>Litorale : </label>
+                    <label>Litoral : </label>
                     <input id="lito" type="checkbox" value="false"/>
+                    <br>
+                    <label class="mt-2">Taille île :</label>
+                    <input id="ileSize" type="number" class="form-control w-25 mb-2" name="row" max=100  min=1 value=15>
+                    
                 </fieldset>
                 <fieldset>
-                    <legend>Villes</legend>
+                    <br><legend>Villes</legend>
                     <label>Villes : </label>
                     <input id="villes" type="checkbox" value="false"/>
-                    <label>Frequance : </label>
-                    <input id="townFreq" type="range" min="0" max="1" step="0.01"/>
+                    <br>
+                    <label>Fréquence : </label>
+                    <input id="townFreq" type="range" class="form-control w-75 mb-2" min="0" max="1" step="0.01"/>
             
                 </fieldset>
             
                 <fieldset>
-                    <legend>Algo</legend>
+                    <br><legend>Algo</legend>
             
                 </fieldset>
             </div>
