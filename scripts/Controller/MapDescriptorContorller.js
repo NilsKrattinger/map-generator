@@ -11,11 +11,9 @@ const MapDescriptorController = {
         await this.generateTemperature(MapDescriptor);
         await this.generateMoisture(MapDescriptor);
 
-        console.log(configurationDescriptor.haveIle)
         if (configurationDescriptor.haveIle) {
             await this.ileMaker(MapDescriptor.heat, MapDescriptor, configurationDescriptor.ileSize, 0)
             await this.ileMaker(MapDescriptor.moisture, MapDescriptor, configurationDescriptor.ileSize, 4)
-            console.log(MapDescriptor);
         }
 
         await this.smoother(MapDescriptor.heat, MapDescriptor, configurationDescriptor.heatSmoothingSlider);
@@ -199,10 +197,8 @@ const MapDescriptorController = {
             for (let x = 0; x < data.rowNumber; x++) {
 
                 let distance = utils.distancePointByRand(new Point(x, y), new Point(data.rowNumber / 2, data.columnsNumber / 2));
-                console.log(distance)
                 if (distance > k) {
                     layer[x][y] = v;
-                    console.log(layer[x][y])
 
                 }
 
