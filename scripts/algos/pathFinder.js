@@ -100,8 +100,6 @@ const pathFinder = {
 
 
         }
-        ("oupsi");
-
         return [];
     }
 }
